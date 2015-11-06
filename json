@@ -1,0 +1,12 @@
+#!/usr/local/bin/node
+
+var fs = require('fs');
+
+
+// var json = require('json');
+fs=require('fs');
+
+var buf = fs.readFileSync('/dev/stdin').toString();
+
+var obj = JSON.parse(buf);
+console.log(JSON.stringify(obj, null, 2));
