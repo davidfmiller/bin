@@ -1,12 +1,12 @@
 #!/bin/sh
 
-OSX=`uname -a | grep 'Darwin'`
-PI= `uname -a | grep 'raspberrypi'`
+OSX=`uname -a | grep 'Darwin' | sed 's/\///g'`
+PI=`uname -a | grep "raspberrypi" | sed 's/\///g'`
 
-if [ "$OSX" ]
+if [ ! -z "$OSX" ]
 then
   echo "osx"
-elif [ "$PI" ] 
+elif [ ! -z "$PI" ] 
 then
   echo "raspberry"
 fi
