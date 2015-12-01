@@ -1,10 +1,18 @@
 #!/bin/bash
 
+if [[ "`os`" != "osx" ]]
+then 
+  >&2 echo "🚫  OS X only"
+  exit 1
+fi
+
 if [ -d "/Volumes/GARMIN" ]
 then
   mv /Volumes/GARMIN/Garmin/Activities/*.fit ~/Dropbox/bike/fit/
   diskutil unmount "GARMIN"
 else
   >&2 echo "🚫  Garmin not mounted"
-
+  exit 1
 fi
+
+exit 0
