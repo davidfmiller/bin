@@ -6,8 +6,9 @@ PI=`uname -a | grep "raspberrypi" | sed 's/\///g'`
 if [ ! -z "$OSX" ]
 then
   echo "osx"
-elif [ ! -z "$PI" ] 
+elif [ ! -z "$PI" ]
 then
   echo "raspberry"
+else
+  echo "?"
 fi
-
