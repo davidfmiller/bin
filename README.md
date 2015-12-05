@@ -16,4 +16,4 @@ A simple script to echo one of the following identifiers to `stdout` based on OS
 
  * `osx` - [Mac OS X](http://www.apple.com/osx/)
  * `raspberry` - [Raspbian](http://www.raspbian.org)
-
+ * `?` - Anything else
