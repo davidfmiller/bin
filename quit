@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# https://github.com/davidfmiller/bin/
+
+APP="$1"
+
+if [ -z "$APP" ]
+then
+  >&2 echo "🚫  No application provided"
+  exit 1
+fi
+
+OUTPUT=`killall -vd "$APP" -u $USER 2>/dev/null | egrep -o "pid:[0-9]*" | cut -d ':' -f2 | sed '/^[[:space:]]*$/d'`
+
+if [ -z "$OUTPUT" ]
+then
+  >&2 echo "🚫  Application \"$APP\" is not running"
+else
+  `kill "$OUTPUT"`
+fi
