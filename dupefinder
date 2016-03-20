@@ -1,4 +1,6 @@
--- 
+#!/bin/sh
+
+read -r -d '' SCRIPT <<- EOM
 
 tell application "Finder"
   activate
@@ -12,3 +14,7 @@ tell application "Finder"
     set target of newWindow to currentPath
   end if
 end tell
+""
+EOM
+
+`echo "$SCRIPT" | osascript`
