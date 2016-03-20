@@ -18,7 +18,7 @@ A simple script to echo one of the following identifiers to `stdout` based on OS
  * `raspberry` - [Raspbian](http://www.raspbian.org)
  * `?` - Anything else
 
-## dupe-finder
+## finder-new
 
 Duplicates the front-most Finder window in OS X, or creates a new window at `~/Desktop` if no windows currently 
 

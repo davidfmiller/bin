@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# https://github.com/davidfmiller/bin
+# https://github.com/davidfmiller/bin#finder-new
 
 if [[ "`os`" != "osx" ]]
 then 
