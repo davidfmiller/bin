@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# 
+#
+
 read -r -d '' SCRIPT <<- EOM
 
 tell application "Finder"
