@@ -20,7 +20,7 @@ A simple script to echo one of the following identifiers to `stdout` based on OS
 
 ## finder-new
 
-Duplicates the front-most Finder window in OS X, or creates a new window at `~/Desktop` if no windows currently 
+Duplicates the front-most Finder window in OS X, or creates a new window at `~/Desktop` if no Finder windows are open
 
 
 ## quit
