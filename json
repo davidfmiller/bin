@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+# https://github.com/davidfmiller/bin/
+
 var fs = require('fs'),
     buf = fs.readFileSync('/dev/stdin').toString(),
     obj = JSON.parse(buf);

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# https://github.com/davidfmiller/bin/
+
 if [[ "`os`" != "osx" ]]
 then 
   >&2 echo "🚫  OS X only"

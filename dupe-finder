@@ -1,7 +1,13 @@
 #!/bin/sh
 
-# 
-#
+# https://github.com/davidfmiller/bin
+
+if [[ "`os`" != "osx" ]]
+then 
+  >&2 echo "🚫  OS X only"
+  exit 1
+fi
+
 
 read -r -d '' SCRIPT <<- EOM
 
