@@ -7,17 +7,5 @@ let arguments = Array(Process.arguments[1 ..< Process.arguments.count])
 for arg in arguments
 {
     let type = try NSWorkspace.sharedWorkspace().typeOfFile(arg)
-    NSLog(arg + " : " + type)
-    
-    
-    var kind : Unmanaged<CFStringRef>?
-    let url = NSURL(fileURLWithPath: arg)
-    
-    LSCopyKindStringForURL(url, &kind)
-    
-    NSLog(kind!.takeRetainedValue() as String)
-    //NSString *kind = nil;
-    //NSURL *url = [NSURL fileURLWithPath:[path stringByExpandingTildeInPath]];
-    //LSCopyKindStringForURL((CFURLRef)url, (CFStringRef *)&kind);
-    
+    print((arguments.count > 1 ? arg + " : " : "") + type)
 }
