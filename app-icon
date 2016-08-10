@@ -31,8 +31,8 @@ sips -Z 58 "$1" --out "$target/29@2x.${extension}"
 sips -Z 87 "$1" --out "$target/29@3x.${extension}"
 
 # iphone spotlight (ios 7-9)
-sips -Z 80 "$1" --out "$target/29@2x.${extension}"
-sips -Z 120 "$1" --out "$target/29@3x.${extension}"
+sips -Z 80 "$1" --out "$target/40@2x.${extension}"
+sips -Z 120 "$1" --out "$target/40@3x.${extension}"
 
 # iphone app (ios 7-9)
 sips -Z 120 "$1" --out "$target/60@2x.${extension}"
