@@ -1,7 +1,7 @@
 #!/usr/bin/env swift
 
 import Foundation
-import Cocoa
+
 
 let arguments = Array(Process.arguments[1 ..< Process.arguments.count])
 for arg in arguments
