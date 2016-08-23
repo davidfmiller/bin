@@ -8,21 +8,20 @@ for arg in arguments
 {
     let url = NSURL(fileURLWithPath: arg)
 
-    do {
-    
-        let doc = try NSXMLDocument(contentsOfURL: url, options: Int(NSXMLDocumentContentKind.XMLKind.rawValue));
+    var val = "\(url.absoluteURL)"
 
-        let root = doc.rootElement()!;
-        let nodes = try root.nodesForXPath("./dict/string")
-
-        for i in nodes
+    if url.pathExtension == "webloc"
+    {
+        do {
+            let doc = try NSXMLDocument(contentsOfURL: url, options: Int(NSXMLDocumentContentKind.XMLKind.rawValue));
+            let nodes =  try doc.rootElement()!.nodesForXPath("./dict/string")
+            val = nodes[0].stringValue!
+        }
+        catch
         {
-            let value = i.childAtIndex(0)!
-            print("\(value.stringValue!)")
+        
         }
     }
-    catch
-    {
-        print(url.absoluteURL)
-    }
+
+    print(val)
 }
