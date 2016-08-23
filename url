@@ -2,11 +2,22 @@
 
 import Foundation
 
-
 let arguments = Array(Process.arguments[1 ..< Process.arguments.count])
+let fileManager = NSFileManager.defaultManager()
+
+let stderr = NSFileHandle.fileHandleWithStandardError()
+
 for arg in arguments
 {
     let url = NSURL(fileURLWithPath: arg)
+
+    var err: NSError?
+
+    if !url.checkResourceIsReachableAndReturnError(&err)
+    {
+        stderr.writeData("🚫  file `\(arg)` doesn't exist".dataUsingEncoding(NSUTF8StringEncoding)!)
+        continue;
+    }
 
     var val = "\(url.absoluteURL)"
 
