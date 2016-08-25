@@ -14,6 +14,7 @@ lines = out.splitlines()
 
 # no git repo
 if len(lines) == 0:
+  sys.stderr.write("🚫  No git repo found\n")
   sys.exit(2)
 
 # retrieve the line that has the fetch url, and strip all extraneous info
@@ -34,7 +35,10 @@ else:
   sys.stderr.write("🚫  Unknown remote origin " + fetchLine)
   sys.exit(2)
 
+# if we're on os x open the url in the default web browser
 try :
   subprocess.Popen(["open", url])
+
+# if the `open` command is not found, print the url to stdout
 except:
   sys.stdout.write("🌎  " + url + "\n")
