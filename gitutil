@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -
+
+"""
+A simple hack to open a git repository's remote host in your default web browser
+"""
+
+import sys
+import subprocess
+import re
+
+out,err = subprocess.Popen(["git", "remote", "show", "origin"], stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
+lines = out.splitlines()
+
+# no git repo
+if len(lines) == 0:
+  sys.exit(2)
+
+# retrieve the line that has the fetch url, and strip all extraneous info
+fetchLine = lines[1].split(':', 1)[1].strip()
+
+url = ''
+
+# github 
+if re.search(r'github', fetchLine):
+  url = fetchLine
+
+# bitbucket
+elif re.search(r'bitbucket', fetchLine):
+  url = fetchLine.replace(':', '/').replace('git@', 'https://')
+
+# unknown 
+else:
+  sys.stderr.write("🚫  Unknown remote origin " + fetchLine)
+  sys.exit(2)
+
+try :
+  subprocess.Popen(["open", url])
+except:
+  sys.stdout.write("🌎  " + url + "\n")

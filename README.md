@@ -22,6 +22,10 @@ A simple script to echo one of the following identifiers to `stdout` based on OS
 
 Duplicates the front-most Finder window in OS X, or creates a new window at `~/Desktop` if no Finder windows are open
 
+## gitutil
+
+Open the remote host for a git repository in your web browser of choice. Currently supports [GitHub](https://github.com) & [BitBucket](https://bitbucket.org).
+
 
 ## quit
 
