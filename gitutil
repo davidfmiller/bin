@@ -93,7 +93,7 @@ for file in args:
     else:
       current = url + "/src/" + branch + path
 
-  # display the repository home page
+  # use the repository home page
   else:
     current = url
 
