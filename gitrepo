@@ -53,9 +53,14 @@ if len(lines) != 1:
     if line[0] == "*":
       branch = line[1:].strip()
 
-# github 
+# github https
 if re.search(r'^https://github.com', fetchLine):
   url = fetchLine #[:-4]
+  host = github
+
+# github git
+elif re.search(r'^git@github.com', fetchLine):
+  url = 'https://github.com/' + fetchLine.split(':', 1)[1][:-4]
   host = github
 
 # bitbucket
