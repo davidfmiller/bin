@@ -25,11 +25,11 @@ A simple script to echo one of the following identifiers to `stdout` based on OS
  * `raspberry` - [Raspbian](http://www.raspbian.org)
  * `?` - Anything else
 
-## gitutil
+## gitrepo
 
 Open the remote host for a git repository in your web browser of choice. Currently supports [GitHub](https://github.com) & [BitBucket](https://bitbucket.org).
 
-    > gitutil [filename]
+    > gitrepo [filename]
 
 ## quit
 
