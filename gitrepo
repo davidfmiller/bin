@@ -3,6 +3,9 @@
 
 """
 A simple hack to open a git repository's remote host in your default web browser
+
+https://github.com/davidfmiller/bin
+
 """
 
 import sys
