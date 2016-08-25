@@ -2,12 +2,11 @@
 
 Random shell scripts
 
-## app-icon
+## ios-icon
 
-Create all iOS icon variations from a master image
+Create all iOS icon variations from a master image (≥ 1024x1024)
 
-    > app-icon [icon.png]
-
+    > ios-icon [icon.png]
 
 ## json
 
