@@ -4,13 +4,16 @@
 """
 A simple hack to open a git repository's remote host in your default web browser
 
-TODO: Accept ≥ 1 filename argument and open that file's page, instead of repository home
-
+TODO:
+  - handle branch
 """
 
 import sys
 import subprocess
 import re
+import getopt
+import os
+
 
 out,err = subprocess.Popen(["git", "remote", "show", "origin"], stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
 lines = out.splitlines()
@@ -20,28 +23,73 @@ if len(lines) == 0:
   sys.stderr.write("🚫  No git repo found\n")
   sys.exit(2)
 
+try:
+  opts, args = getopt.getopt(sys.argv[1:], '')
+except getopt.GetoptError:
+  sys.stderr.write("🚫  Incorrect usage\n")
+  sys.exit(2)
+
 # retrieve the line that has the fetch url, and strip all extraneous info
 fetchLine = lines[1].split(':', 1)[1].strip()
 
+# base url for the repository
 url = ''
 
+# type of hosting service for this repo (one of: github, bitbucket)
+host = None
+github, bitbucket = range(0,2)
+
 # github 
-if re.search(r'github', fetchLine):
-  url = fetchLine
+if re.search(r'^https://github.com', fetchLine):
+  url = fetchLine[:-4]
+  host = github
 
 # bitbucket
-elif re.search(r'bitbucket', fetchLine):
-  url = fetchLine.replace(':', '/').replace('git@', 'https://')
+elif re.search(r'^git@bitbucket.org', fetchLine):
+  url = fetchLine[:-4].replace(':', '/').replace('git@', 'https://')
+  host = bitbucket
 
 # unknown 
 else:
   sys.stderr.write("🚫  Unknown remote origin " + fetchLine)
   sys.exit(2)
 
-# if we're on os x open the url in the default web browser
-try :
-  subprocess.Popen(["open", url])
+# find the repository root, walking up the directory tree if necessary
+root = os.getcwd()
+while root != '/':
+  repo = os.path.join(root, '.git')
+  if os.path.exists(repo):
+    break
+  else:
+    root = os.path.abspath(os.path.join(root, os.pardir))
 
-# if the `open` command is not found, print the url to stdout
-except:
-  sys.stdout.write("🌎  " + url + "\n")
+# if no files have been specified as args, handle the repository root
+if len(args) == 0:
+  args = [root]
+
+# loop through all files passed to the script
+for file in args:
+
+  # determine the path of the current file, relative to the repository root
+  current = os.path.abspath(os.path.join(os.getcwd(), file))
+  path = current.replace(root, '')
+
+  # if we're not dealing with the repo root...
+  if file != root:
+
+    # figure out file's url based on host type
+    if host == github:
+      current = url + "/blob/master" + path
+    else:
+      current = url + "/src/master" + path
+
+  # display the repository home page
+  else:
+    current = url
+
+  # if we're on os x, open the url in the default web browser
+  try :
+    subprocess.Popen(["open", current])
+  # otherwise print the url to stdout
+  except:
+    sys.stdout.write("🌎  " + current + "\n")
