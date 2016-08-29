@@ -13,6 +13,7 @@ import subprocess
 import re
 import getopt
 import os
+import urlparse
 
 
 out,err = subprocess.Popen(["git", "remote", "show", "origin"], stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
@@ -63,10 +64,18 @@ elif re.search(r'^git@github.com', fetchLine):
   url = 'https://github.com/' + fetchLine.split(':', 1)[1][:-4]
   host = github
 
-# bitbucket
+# bitbucket git
 elif re.search(r'^git@bitbucket.org', fetchLine):
   url = fetchLine[:-4].replace(':', '/').replace('git@', 'https://')
   host = bitbucket
+
+# bitbucket https
+elif re.search(r'^[^@]*@bitbucket.org', fetchLine):
+  o = urlparse.urlparse(fetchLine)
+  url = 'https://bitbucket.org' + o.path[:-4]
+  #url = fetchLine[:-4].replace(':', '/').replace('git@', 'https://')
+  host = bitbucket
+
 
 # unknown 
 else:
