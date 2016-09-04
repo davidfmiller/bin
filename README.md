@@ -4,9 +4,16 @@ Random shell scripts
 
 ## ios-icon
 
-Create all iOS icon variations from a master image (≥ 1024x1024)
+Create all iOS icon variations from a master image (≥ 1024x1024):
 
     > ios-icon [icon.png]
+
+## ios-crop
+
+Crop screen shots of `iOS Simulator` to *only* contain application content:
+
+    > ios-crop [screenshot.png]
+
 
 ## json
 
