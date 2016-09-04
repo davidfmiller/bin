@@ -40,16 +40,19 @@ for arg in arguments
 
     let originalSize = CGSize(width: screenshot!.size.width, height: screenshot!.size.height)
 
-    var offset : CGSize
+    let offset = CGSize(width: 56, height:80)
     var name : String
     var destinationSize : CGSize
-
 
     if Int(originalSize.width) == 733 && Int(originalSize.height) == 1238
     {
         name = "6+"
-        offset = CGSize(width: 56, height:80)
         destinationSize = CGSize(width: 621, height: 1104)
+    }
+    else if Int(originalSize.width) == 432 && Int(originalSize.height) == 614
+    {
+        name = "4"
+        destinationSize = CGSize(width: 320, height: 480)
     }
     else 
     {
@@ -66,6 +69,8 @@ for arg in arguments
       operation: NSCompositingOperation.CompositeSourceOver,
       fraction: 1.0
     )
+
+    // check if file exists
 
     cropped.unlockFocus()
     let data = cropped.TIFFRepresentation!
