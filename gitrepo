@@ -73,11 +73,9 @@ elif re.search(r'^git@bitbucket.org', fetchLine):
 elif re.search(r'^[^@]*@bitbucket.org', fetchLine):
   o = urlparse.urlparse(fetchLine)
   url = 'https://bitbucket.org' + o.path[:-4]
-  #url = fetchLine[:-4].replace(':', '/').replace('git@', 'https://')
   host = bitbucket
 
-
-# unknown 
+# unknown
 else:
   sys.stderr.write("🚫  Unknown remote origin " + fetchLine)
   sys.exit(2)
