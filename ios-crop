@@ -1,0 +1,94 @@
+#!/usr/bin/env swift
+
+/*
+    https://github.com/davidfmiller/bin
+
+    Crop iOS Simulator screenshots to *only* contain application content
+*/
+
+import Foundation
+import AppKit
+import Darwin
+
+let arguments = Array(Process.arguments[1 ..< Process.arguments.count])
+
+let stderr = NSFileHandle.fileHandleWithStandardError()
+
+if arguments.count == 0
+{
+    stderr.writeData("🚫  No arguments provided\n".dataUsingEncoding(NSUTF8StringEncoding)!)
+    exit(1)
+}
+
+for arg in arguments
+{
+    let url = NSURL(fileURLWithPath: arg)
+
+    var err: NSError?
+    if !url.checkResourceIsReachableAndReturnError(&err)
+    {
+        stderr.writeData("🚫  file `\(arg)` doesn't exist\n".dataUsingEncoding(NSUTF8StringEncoding)!)
+        continue;
+    }
+
+    let screenshot = NSImage(contentsOfURL: url)
+    if screenshot == nil
+    {
+        stderr.writeData("🚫  `\(arg)` is not a valid image\n".dataUsingEncoding(NSUTF8StringEncoding)!)
+        continue;
+    }
+
+    let originalSize = CGSize(width: screenshot!.size.width, height: screenshot!.size.height)
+
+    var offset : CGSize
+    var name : String
+    var destinationSize : CGSize
+
+
+    if Int(originalSize.width) == 733 && Int(originalSize.height) == 1238
+    {
+        name = "6+"
+        offset = CGSize(width: 56, height:80)
+        destinationSize = CGSize(width: 621, height: 1104)
+    }
+    else 
+    {
+        stderr.writeData("🚫  `\(arg)` has unknown screen size: \(Int(originalSize.width))x\(Int(originalSize.height))\n".dataUsingEncoding(NSUTF8StringEncoding)!)
+        continue;
+    }
+
+    let cropped = NSImage(size: destinationSize)
+    cropped.lockFocus()
+
+    screenshot!.drawAtPoint(
+      NSPoint(x: 0, y: 0),
+      fromRect:NSRect(x: offset.width, y: offset.height, width: destinationSize.width, height: destinationSize.height),
+      operation: NSCompositingOperation.CompositeSourceOver,
+      fraction: 1.0
+    )
+
+    cropped.unlockFocus()
+    let data = cropped.TIFFRepresentation!
+    data.writeToFile(name + ".tiff", atomically: true)
+
+    var task = NSTask()
+    task.launchPath = "/usr/bin/sips"
+    task.arguments = ["-s", "format", "png", name + ".tiff", "--out", name + ".png"]
+    task.launch()
+    task.waitUntilExit()
+
+    task = NSTask()
+    task.launchPath = "/bin/rm"
+    task.arguments = [name + ".tiff"]
+    task.launch()
+    task.waitUntilExit()
+
+
+/*
+    let task = NSTask()
+    task.launchPath = "/usr/bin/python"
+    task.arguments = [("~/Documents/git/apples/app" as NSString).stringByExpandingTildeInPath, "launchbar", path]
+    task.launch()
+    task.waitUntilExit()
+*/
+}
