@@ -3,9 +3,18 @@
 import Foundation
 import Cocoa
 
-let arguments = Array(Process.arguments[1 ..< Process.arguments.count])
+let arguments = Array(CommandLine.arguments[1 ..< CommandLine.arguments.count])
+
+let stderr = FileHandle.standardError
+
 for arg in arguments
 {
-    let type = try NSWorkspace.sharedWorkspace().typeOfFile(arg)
+  do {
+    let type = try NSWorkspace.shared().type(ofFile:arg)
     print((arguments.count > 1 ? arg + " : " : "") + type)
+  }
+  catch
+  {
+    stderr.write("🚫  file `\(arg)` doesn't exist\n".data(using: String.Encoding.utf8)!)
+  }
 }
