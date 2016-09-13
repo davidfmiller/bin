@@ -10,13 +10,13 @@ import Foundation
 import AppKit
 import Darwin
 
-let arguments = Array(Process.arguments[1 ..< Process.arguments.count])
+let arguments = Array(CommandLine.arguments[1 ..< CommandLine.arguments.count])
 
-let stderr = NSFileHandle.fileHandleWithStandardError()
+let stderr = FileHandle.standardError
 
 if arguments.count == 0
 {
-    stderr.writeData("🚫  No arguments provided\n".dataUsingEncoding(NSUTF8StringEncoding)!)
+    stderr.write("🚫  No arguments provided\n".data(using: String.Encoding.utf8)!)
     exit(1)
 }
 
@@ -27,14 +27,14 @@ for arg in arguments
     var err: NSError?
     if !url.checkResourceIsReachableAndReturnError(&err)
     {
-        stderr.writeData("🚫  file `\(arg)` doesn't exist\n".dataUsingEncoding(NSUTF8StringEncoding)!)
+        stderr.write("🚫  file `\(arg)` doesn't exist\n".data(using: String.Encoding.utf8)!)
         continue;
     }
 
-    let screenshot = NSImage(contentsOfURL: url)
+    let screenshot = NSImage(contentsOf: url as URL)
     if screenshot == nil
     {
-        stderr.writeData("🚫  `\(arg)` is not a valid image\n".dataUsingEncoding(NSUTF8StringEncoding)!)
+        stderr.write("🚫  `\(arg)` is not a valid image\n".data(using: String.Encoding.utf8)!)
         continue;
     }
 
@@ -56,33 +56,33 @@ for arg in arguments
     }
     else 
     {
-        stderr.writeData("🚫  `\(arg)` has unknown screen size: \(Int(originalSize.width))x\(Int(originalSize.height))\n".dataUsingEncoding(NSUTF8StringEncoding)!)
+        stderr.write("🚫  `\(arg)` has unknown screen size: \(Int(originalSize.width))x\(Int(originalSize.height))\n".data(using: String.Encoding.utf8)!)
         continue;
     }
 
     let cropped = NSImage(size: destinationSize)
     cropped.lockFocus()
 
-    screenshot!.drawAtPoint(
-      NSPoint(x: 0, y: 0),
-      fromRect:NSRect(x: offset.width, y: offset.height, width: destinationSize.width, height: destinationSize.height),
-      operation: NSCompositingOperation.CompositeSourceOver,
+    screenshot!.draw(
+      at: NSPoint(x: 0, y: 0),
+      from:NSRect(x: offset.width, y: offset.height, width: destinationSize.width, height: destinationSize.height),
+      operation: NSCompositingOperation.sourceOver,
       fraction: 1.0
     )
 
     // check if file exists
 
     cropped.unlockFocus()
-    let data = cropped.TIFFRepresentation!
-    data.writeToFile(name + ".tiff", atomically: true)
+    let data = cropped.tiffRepresentation!
+    try data.write(to: URL(fileURLWithPath : name + ".tiff"))
 
-    var task = NSTask()
+    var task = Process()
     task.launchPath = "/usr/bin/sips"
     task.arguments = ["-s", "format", "png", name + ".tiff", "--out", name + ".png"]
     task.launch()
     task.waitUntilExit()
 
-    task = NSTask()
+    task = Process()
     task.launchPath = "/bin/rm"
     task.arguments = [name + ".tiff"]
     task.launch()
