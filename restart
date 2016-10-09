@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# https://github.com/davidfmiller/bin
+
+if [[ "`os`" == "macos" ]]
+then 
+  osascript -e 'tell app "loginwindow" to «event aevtrrst»'
+else
+  sudo shutdown -r now
+fi
