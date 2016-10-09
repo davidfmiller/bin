@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# http://furbo.org/2015/01/19/clearing-the-icon-services-cache-in-yosemite/
+
+
+if [[ "`os`" != "macos" ]]
+then 
+  >&2 echo "🚫  macOS required"
+  exit 1
+fi
+
+sudo find /private/var/folders/ \
+  -name com.apple.dock.iconcache -exec rm {} \ &> /dev/null;
+
+sudo find /private/var/folders/ \
+  -name com.apple.iconservices -exec rm -rf {} \ &> /dev/null;
+
+sudo rm -rf /Library/Caches/com.apple.iconservices.store &> /dev/null;
+
+echo "⛔  Reboot your Mac: 'sudo reboot'"
