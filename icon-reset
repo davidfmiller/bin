@@ -9,6 +9,8 @@ then
   exit 1
 fi
 
+rm -Rf ~/Library/Safari/Template\ Icons
+
 sudo find /private/var/folders/ \
   -name com.apple.dock.iconcache -exec rm {} \ &> /dev/null;
 
@@ -17,4 +19,4 @@ sudo find /private/var/folders/ \
 
 sudo rm -rf /Library/Caches/com.apple.iconservices.store &> /dev/null;
 
-echo "⛔  Reboot your Mac: 'sudo reboot'"
+restart
