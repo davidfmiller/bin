@@ -8,6 +8,12 @@ Create all iOS icon variations from a master image (≥ 1024x1024):
 
     > ios-icon [icon.png]
 
+## touch-icon
+
+Create all [Apple touch icon](https://developer.apple.com/library/content/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html) variations from a master image (≥ 1024x1024):
+
+> touch-icon [icon.png]
+
 ## ios-crop
 
 Crop screen shots of `iOS Simulator` to *only* contain application content:
