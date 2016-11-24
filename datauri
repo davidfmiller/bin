@@ -2,50 +2,59 @@
 
 import Foundation
 import Cocoa
+import Darwin
+
+let stderr = FileHandle.standardError
 
 let arguments = Array(CommandLine.arguments[1 ..< CommandLine.arguments.count])
 
+let mimes : [ String : String] = [
+  "css" : "text/css",
+  "gif" : "image/gif",
+  "htm" : "text/html",
+  "html" : "text/html",
+  "jpg" : "image/jpeg",
+  "jpeg" : "image/jpeg",
+  "js" : "application/javascript",
+  "json" : "application/javascript",
+  "pdf" : "application/pdf",
+  "png" : "image/png",
+  "svg" : "image/svg+xml",
+  "txt" : "text/plain"
+]
+
+if arguments.count == 1 {
+
+    let str = arguments[0] 
+    if str[str.startIndex...str.index(str.startIndex, offsetBy:1)] == "--" {
+
+        let mime = (str[str.index(str.startIndex, offsetBy: 2)...str.index(str.endIndex, offsetBy: -1)])
+
+        if (mime == "help") {
+          print("TODO")
+          exit(0)
+        }
+
+        let data = FileHandle.standardInput.availableData
+        print("data:" + mime + ";charset=UTF-8;base64," + data.base64EncodedString())
+        exit(0)
+    }
+}
+
 for path in arguments
 {
-
-    let data = NSData(contentsOfFile: path)
     let url = NSURL(fileURLWithPath: path)
 
-    var mime = ""
-    let pathExtension = url.pathExtension!
-    
-    switch(pathExtension)
+    var err: NSError?
+    if !url.checkResourceIsReachableAndReturnError(&err)
     {
-        case "css":
-            mime = "text/css"
-        case "gif":
-            mime = "image/gif"
-        case "htm":
-            mime = "text/html"
-        case "html":
-            mime = "text/html"
-        case "jpg":
-            mime = "image/jpeg"
-        case "jpeg":
-            mime = "image/jpeg"
-        case "js":
-            mime = "application/javascript"
-        case "json":
-            mime = "application/javascript"
-        case "pdf":
-            mime = "application/pdf"
-        case "png":
-            mime = "image/png"
-            break;
-
-        case "svg":
-            mime = "image/svg+xml"
-        default:
-            mime = "text/plain"
-        
+        stderr.write("🚫  file `\(path)` doesn't exist\n".data(using: String.Encoding.utf8)!)
+        continue;
     }
 
-    let base64String = "data:" + mime + ";charset=UTF-8;base64," + data!.base64EncodedString()
-    print(base64String)
+    var mime = mimes[url.pathExtension!] != nil ? mimes[url.pathExtension!]! : mimes["txt"]!
 
+    let data = NSData(contentsOfFile: path)
+
+    print(base64String = "data:" + mime + ";charset=UTF-8;base64," + data!.base64EncodedString())
 }
