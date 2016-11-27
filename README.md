@@ -10,7 +10,7 @@ Create all iOS icon variations from a master image (≥ 1024x1024):
 
 ## touch-icon
 
-Create all [Apple touch icon](https://developer.apple.com/library/content/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html) variations from a master image (≥ 152x152):
+Create all [Apple touch icon](https://developer.apple.com/library/content/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html) & [MS application](https://msdn.microsoft.com/en-us/library/dn255024(v=vs.85).aspx) variations from a master image (≥ 152x152):
 
     > touch-icon [icon.png]
 
