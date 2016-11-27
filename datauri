@@ -56,5 +56,5 @@ for path in arguments
 
     let data = NSData(contentsOfFile: path)
 
-    print(base64String = "data:" + mime + ";charset=UTF-8;base64," + data!.base64EncodedString())
+    print("data:" + mime + ";charset=UTF-8;base64," + data!.base64EncodedString())
 }
