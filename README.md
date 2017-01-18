@@ -81,6 +81,7 @@ Create all [Apple touch icon](https://developer.apple.com/library/content/docume
 
     > touch-icon [icon.png]
 
+A sibling folder containing the generated images will be created with the same basename as the argument
 
 ## url
 
