@@ -12,14 +12,14 @@ for arg in arguments
     let url = NSURL(fileURLWithPath: arg)
 
     var err: NSError?
-    
+
     if !url.checkResourceIsReachableAndReturnError(&err)
     {
         stderr.write("🚫  file `\(arg)` doesn't exist".data(using: String.Encoding.utf8)!)
         continue;
     }
 
-    var val = "\(url.absoluteURL)"
+    var val = "\(url.absoluteURL!)"
 
     if url.pathExtension == "webloc"
     {
