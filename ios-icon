@@ -8,9 +8,16 @@ then
   exit 1
 fi
 
-if [ ! -e $1 ]
+if [[ "$1" = "" ]]
 then
   >&2 echo "🚫  No icon file provided"
+  exit 1
+fi
+
+
+if [ ! -e "$1" ]
+then
+  >&2 echo "🚫  Invalid icon provided"
   exit 1
 fi
 
