@@ -1,5 +1,7 @@
 #!/usr/bin/env swift
 
+// http://github.com/davidfmiller/bin/
+
 import Foundation
 import Cocoa
 import Darwin
@@ -9,18 +11,18 @@ let stderr = FileHandle.standardError
 let arguments = Array(CommandLine.arguments[1 ..< CommandLine.arguments.count])
 
 let mimes : [ String : String] = [
-  "css" : "text/css",
-  "gif" : "image/gif",
-  "htm" : "text/html",
+  "css"  : "text/css",
+  "gif"  : "image/gif",
+  "htm"  : "text/html",
   "html" : "text/html",
-  "jpg" : "image/jpeg",
+  "jpg"  : "image/jpeg",
   "jpeg" : "image/jpeg",
-  "js" : "application/javascript",
+  "js"   : "application/javascript",
   "json" : "application/javascript",
-  "pdf" : "application/pdf",
-  "png" : "image/png",
-  "svg" : "image/svg+xml",
-  "txt" : "text/plain"
+  "pdf"  : "application/pdf",
+  "png"  : "image/png",
+  "svg"  : "image/svg+xml",
+  "txt"  : "text/plain"
 ]
 
 if arguments.count == 1 {
@@ -31,7 +33,7 @@ if arguments.count == 1 {
         let mime = (str[str.index(str.startIndex, offsetBy: 2)...str.index(str.endIndex, offsetBy: -1)])
 
         if (mime == "help") {
-          print("TODO")
+          print("🌏  https://github.com/davidfmiller/bin/ \nRetrieve base64-encoding of file for use in a data uri ")
           exit(0)
         }
 
