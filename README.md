@@ -33,12 +33,11 @@ Open the remote host for a git repository in your web browser of choice. Current
 
 Clear all macOS icon caches (requires restart)
 
+## imessage-icon
 
-## ios-crop
+Create all iMessage app icon variations from a master image (≥ 1024x768):
 
-Crop screen shots of `iOS Simulator` to *only* contain application content:
-
-    > ios-crop [screenshot.png]
+    > imessage-icon [icon.png]
 
 
 ## ios-icon
