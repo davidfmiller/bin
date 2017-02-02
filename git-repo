@@ -36,9 +36,9 @@ fetchLine = lines[1].split(':', 1)[1].strip()
 # base url for the repository
 url = ''
 
-# type of hosting service for this repo (one of: github, bitbucket)
+# type of hosting service for this repo (one of: github, bitbucket,gitlab)
 host = None
-github, bitbucket = range(0,2)
+github, bitbucket,gitlab = range(0,3)
 
 branch = 'master'
 
@@ -75,9 +75,21 @@ elif re.search(r'^[^@]*@bitbucket.org', fetchLine):
   url = 'https://bitbucket.org' + o.path[:-4]
   host = bitbucket
 
+# gitlab git
+elif re.search(r'^[^@]*git@gitlab.com', fetchLine):
+  o = urlparse.urlparse(fetchLine)
+  url = fetchLine[:-4].replace(':', '/').replace('git@', 'https://')
+  host = gitlab
+
+# gitlab https
+elif re.search(r'^https://gitlab.com', fetchLine):
+  o = urlparse.urlparse(fetchLine)
+  url = 'https://gitlab.com' + o.path[:-4]
+  host = gitlab
+
 # unknown
 else:
-  sys.stderr.write("🚫  Unknown remote origin " + fetchLine)
+  sys.stderr.write("🚫  Unknown remote origin " + fetchLine + "\n")
   sys.exit(2)
 
 # find the repository root, walking up the directory tree if necessary
@@ -105,9 +117,14 @@ for file in args:
 
     # figure out file's url based on host type
     if host == github:
-      current = url + "/" + (os.path.isdir(file) and "tree" or "blob") + "/" + branch + path
-    else:
+      current = url + '/' + (os.path.isdir(file) and 'tree' or 'blob') + '/' + branch + path
+    elif host == bitbucket:
       current = url + "/src/" + branch + path
+    elif host == gitlab:
+      current = url + '/' + (os.path.isdir(file) and 'tree' or 'blob') + '/' + branch + path
+    else:
+      sys.stderr.write("🚫  Unknown host\n")
+      sys.exit(2)
 
   # display the repository home page
   else:

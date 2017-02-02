@@ -22,11 +22,11 @@ Echo the `data:` URI for the contents of a file. Supports the following types:
 Echo the current date in [RSS-compatible](http://www.faqs.org/rfcs/rfc2822.html) format.
 
 
-## gitrepo
+## git-repo
 
-Open the remote host for a git repository in your web browser of choice. Currently supports [GitHub](https://github.com) & [BitBucket](https://bitbucket.org).
+Open the remote host for a git repository in your web browser of choice. Currently supports [GitHub](https://github.com), [BitBucket](https://bitbucket.org), & [GitLab](https://gitlab.com).
 
-    > gitrepo [filename]
+    > git-repo [filename]
 
 
 ## icon-reset
