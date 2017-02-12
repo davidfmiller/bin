@@ -1,0 +1,70 @@
+#!/usr/bin/env swift
+
+// http://github.com/davidfmiller/bin/
+
+import Foundation
+import Cocoa
+import Darwin
+
+let stderr = FileHandle.standardError
+
+let arguments = Array(CommandLine.arguments[1 ..< CommandLine.arguments.count])
+
+
+for path in arguments
+{
+    let url = URL(fileURLWithPath: path)
+
+    var err: NSError?
+    if !(url as NSURL).checkResourceIsReachableAndReturnError(&err)
+    {
+        stderr.write("🚫  file `\(path)` doesn't exist\n".data(using: String.Encoding.utf8)!)
+        continue;
+    }
+
+    let screenshot : NSImage? = NSImage(byReferencing: url)
+    let backToScreeny = NSImage(byReferencing: URL(string:"file:///Users/dave/Library/RMR/back-to-screeny.png")!)
+
+    if screenshot == nil || screenshot!.size.width != 1242 || screenshot!.size.height != 2208
+    {
+        stderr.write("🚫  file `\(path)` isn't an iOS Simulator Screenshot\n".data(using: String.Encoding.utf8)!)
+        continue;
+    }
+
+    if backToScreeny.size.width == 0 || backToScreeny.size.height == 0
+    {
+        stderr.write("🚫  backToScreeny not found\n".data(using: String.Encoding.utf8)!)
+        continue;
+    }
+
+    let rect = NSMakeRect(0, 0, screenshot!.size.width, screenshot!.size.height)
+    let image = NSImage(size: rect.size);
+
+    image.lockFocus()
+    screenshot!.draw(in:rect)
+    backToScreeny.draw(in:NSMakeRect(0, rect.size.height - backToScreeny.size.height, backToScreeny.size.width, backToScreeny.size.height))
+    image.unlockFocus()
+
+    let bitmapImage = NSBitmapImageRep(
+      bitmapDataPlanes: nil,
+      pixelsWide: Int(rect.size.width),
+      pixelsHigh: Int(rect.size.height),
+      bitsPerSample: 8,
+      samplesPerPixel: 3,
+      hasAlpha: false,
+      isPlanar: false,
+      colorSpaceName: NSDeviceRGBColorSpace,
+      bytesPerRow: Int(rect.size.width * 4),
+      bitsPerPixel: 32
+    )!
+
+    let context = NSGraphicsContext(bitmapImageRep: bitmapImage)!
+    NSGraphicsContext.saveGraphicsState()
+    NSGraphicsContext.setCurrent(context)
+    image.draw(at: NSZeroPoint, from: NSZeroRect, operation: NSCompositeCopy, fraction: 1.0)
+    context.flushGraphics()
+    NSGraphicsContext.restoreGraphicsState()
+    let data = bitmapImage.representation(using: NSPNGFileType, properties:[:]);
+
+    try data!.write(to: URL(string:"file:///Users/dave/Desktop/buh.png")!, options: [])
+}
