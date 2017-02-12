@@ -38,6 +38,8 @@ sips -Z 120 "$1" --out "$target/apple-touch-icon-120x120.${extension}"
 sips -Z 76 "$1" --out "$target/apple-touch-icon-76x76.${extension}"
 sips -Z 152 "$1" --out "$target/apple-touch-icon-152x152.${extension}"
 
+sips -Z 512 "$1" --out "$target/apple-touch-icon.${extension}"
+
 sips -Z 144 "$1" --out "$target/ms-tile-144x144.${extension}"
 sips -Z 70 "$1" --out "$target/ms-tile-70x70.${extension}"
 sips -Z 150 "$1" --out "$target/ms-tile-150x150.${extension}"
