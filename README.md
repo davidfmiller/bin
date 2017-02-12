@@ -46,6 +46,13 @@ Create all iOS icon variations from a master image (≥ 1024x1024):
 
     > ios-icon [icon.png]
 
+## watchos-icon
+
+Create all watch OS icon variations from a master image (≥ 1024x1024):
+
+    > watchos-icon [icon.png]
+
+
 
 ## json
 
