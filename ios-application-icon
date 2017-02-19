@@ -33,7 +33,8 @@ fi
 
 mkdir "$target"
 
-# iphone notification (ios 7 - 10)
+# iphone & ipad notification (ios 7 - 10)
+sips -Z 20 "$1" --out "$target/20.${extension}"
 sips -Z 40 "$1" --out "$target/20@2x.${extension}"
 sips -Z 60 "$1" --out "$target/20@3x.${extension}"
 
