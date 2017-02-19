@@ -33,6 +33,11 @@ fi
 
 mkdir "$target"
 
+# iphone notification (ios 7 - 10)
+sips -Z 40 "$1" --out "$target/20@2x.${extension}"
+sips -Z 60 "$1" --out "$target/20@3x.${extension}"
+
+
 # iphone spotlight (ios 5,6), settings (ios 5-9)
 sips -Z 58 "$1" --out "$target/29@2x.${extension}"
 sips -Z 87 "$1" --out "$target/29@3x.${extension}"
