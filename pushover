@@ -69,8 +69,9 @@ if (apps.object(forKey:APP) == nil) {
 
 let USER : String = config!.object(forKey:"user") as! String
 let APPKEY : NSString = apps.object(forKey: APP) as! NSString
+let HOST = "https://api.pushover.net"
 
-let request = NSMutableURLRequest(url: URL(string: "https://api.pushover.net/1/messages.json")!)
+let request = NSMutableURLRequest(url: URL(string: "\(HOST)/1/messages.json")!)
 request.httpMethod = "POST"
 request.httpBody = "token=\(APPKEY)&user=\(USER)&message=\(MESSAGE)".data(using: String.Encoding.utf8);
 
@@ -80,7 +81,7 @@ do {
 }
 catch let error as NSError {
   if error.domain == NSURLErrorDomain {
-    stderr.write("🚫  Unable to connect to https://api.pushover.net\n".data(using: String.Encoding.utf8)!)
+    stderr.write("🚫  Unable to connect to \(HOST)\n".data(using: String.Encoding.utf8)!)
   }
   else {
     stderr.write("🚫  \(error)\n".data(using: String.Encoding.utf8)!)
