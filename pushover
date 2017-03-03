@@ -1,0 +1,46 @@
+#!/usr/bin/env swift
+
+import Foundation
+import Cocoa
+import Darwin
+
+let stderr = FileHandle.standardError
+
+let PATH = NSString(string: "~/.pushover.plist").expandingTildeInPath
+let APP = "local";
+
+
+let dict : NSDictionary? = NSDictionary(contentsOfFile:PATH)
+
+if dict == nil {
+  stderr.write("🚫  file `\(PATH)` doesn't exist\n".data(using: String.Encoding.utf8)!)
+  exit(0);
+}
+
+if (dict!.object(forKey:"user") == nil) {
+  stderr.write("🚫  `user` identifier does not exist in \(PATH)\n".data(using: String.Encoding.utf8)!)
+  exit(0);
+}
+
+if (dict!.object(forKey:"applications") == nil) {
+  stderr.write("🚫  `applications` identifier does not exist in \(PATH)\n".data(using: String.Encoding.utf8)!)
+  exit(0);
+}
+
+let apps : NSDictionary = dict!.object(forKey:"applications") as! NSDictionary
+
+if (apps.object(forKey:APP) == nil) {
+  stderr.write("🚫  application `\(APP)` does not exist in \(PATH)\n".data(using: String.Encoding.utf8)!)
+  exit(0);
+}
+
+let USER : String = dict!.object(forKey:"user") as! String
+let APPKEY : NSString = apps.object(forKey: APP) as! NSString
+
+let request = NSMutableURLRequest(url: URL(string: "https://api.pushover.net/1/messages.json")!)
+request.httpMethod = "POST"
+request.httpBody = "token=\(APPKEY)&user=\(USER)&message=hi".data(using: String.Encoding.utf8);
+
+let urlData = try NSURLConnection.sendSynchronousRequest(request as URLRequest, returning: nil)
+
+let resultDictionary: NSDictionary = try JSONSerialization.jsonObject(with: urlData, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
