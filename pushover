@@ -1,7 +1,6 @@
 #!/usr/bin/env swift
 
-#
-#
+// https://github.com/davidfmiller/bin
 
 import Foundation
 import Cocoa
@@ -75,6 +74,16 @@ let request = NSMutableURLRequest(url: URL(string: "https://api.pushover.net/1/m
 request.httpMethod = "POST"
 request.httpBody = "token=\(APPKEY)&user=\(USER)&message=\(MESSAGE)".data(using: String.Encoding.utf8);
 
-let urlData = try NSURLConnection.sendSynchronousRequest(request as URLRequest, returning: nil)
-
-let resultDictionary: NSDictionary = try JSONSerialization.jsonObject(with: urlData, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+do {
+  let urlData = try NSURLConnection.sendSynchronousRequest(request as URLRequest, returning: nil)
+  try JSONSerialization.jsonObject(with: urlData, options: JSONSerialization.ReadingOptions.mutableContainers)
+}
+catch let error as NSError {
+  if error.domain == NSURLErrorDomain {
+    stderr.write("🚫  Unable to connect to https://api.pushover.net\n".data(using: String.Encoding.utf8)!)
+  }
+  else {
+    stderr.write("🚫  \(error)\n".data(using: String.Encoding.utf8)!)
+  }
+  exit(0)
+}
