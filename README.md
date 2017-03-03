@@ -75,6 +75,13 @@ Quit an OS X application by name:
   * `> quit Terminal`
   * `> quit "Google Chrome"`
 
+## pushover
+
+Easily send messages to the [Pushover](https://pushover.net) API
+
+  `> pushover {application} {message}`
+
+
 
 ## restart
 

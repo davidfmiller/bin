@@ -1,5 +1,8 @@
 #!/usr/bin/env swift
 
+#
+#
+
 import Foundation
 import Cocoa
 import Darwin
@@ -7,39 +10,70 @@ import Darwin
 let stderr = FileHandle.standardError
 
 let PATH = NSString(string: "~/.pushover.plist").expandingTildeInPath
-let APP = "local";
 
+let ARGUMENTS = Array(CommandLine.arguments[1 ..< CommandLine.arguments.count])
 
-let dict : NSDictionary? = NSDictionary(contentsOfFile:PATH)
+let config : NSDictionary? = NSDictionary(contentsOfFile:PATH)
 
-if dict == nil {
-  stderr.write("🚫  file `\(PATH)` doesn't exist\n".data(using: String.Encoding.utf8)!)
+if config == nil {
+  let template = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+    "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n" +
+    "<plist version=\"1.0\">\n" +
+    "  <dict>\n" +
+    "    <key>user</key>\n" +
+    "     <string>{userToken}</string>\n" +
+    "     <key>applications</key>\n" +
+    "     <dict>\n" +
+    "       <key>{applicationName}</key>\n" +
+    "       <string>{applicationToken}</string>\n" +
+    "       <!-- add more applications... -->" +
+    "    </dict>\n" +
+    "  </dict>\n" +
+    "</plist>\n"
+
+  do {
+    try template.write(toFile:PATH, atomically: false, encoding: String.Encoding.utf8)
+  }
+  catch let error as NSError {
+    stderr.write("🚫 \(error)".data(using: String.Encoding.utf8)!)
+    exit(0)
+  }
+
+  stderr.write("🚫  file `\(PATH)` doesn't exist; a template has been created \n".data(using: String.Encoding.utf8)!)
   exit(0);
 }
 
-if (dict!.object(forKey:"user") == nil) {
+if ARGUMENTS.count < 2 {
+  stderr.write("🚫  Usage: > pushover {application} {message}\n".data(using: String.Encoding.utf8)!)
+  exit(0)
+}
+
+let APP = ARGUMENTS[0]
+let MESSAGE = ARGUMENTS[1]
+
+if (config!.object(forKey:"user") == nil) {
   stderr.write("🚫  `user` identifier does not exist in \(PATH)\n".data(using: String.Encoding.utf8)!)
-  exit(0);
+  exit(0)
 }
 
-if (dict!.object(forKey:"applications") == nil) {
-  stderr.write("🚫  `applications` identifier does not exist in \(PATH)\n".data(using: String.Encoding.utf8)!)
-  exit(0);
+if (config!.object(forKey:"applications") == nil) {
+  stderr.write("🚫  `applications` dictionary does not exist in \(PATH)\n".data(using: String.Encoding.utf8)!)
+  exit(0)
 }
 
-let apps : NSDictionary = dict!.object(forKey:"applications") as! NSDictionary
+let apps : NSDictionary = config!.object(forKey:"applications") as! NSDictionary
 
 if (apps.object(forKey:APP) == nil) {
   stderr.write("🚫  application `\(APP)` does not exist in \(PATH)\n".data(using: String.Encoding.utf8)!)
-  exit(0);
+  exit(0)
 }
 
-let USER : String = dict!.object(forKey:"user") as! String
+let USER : String = config!.object(forKey:"user") as! String
 let APPKEY : NSString = apps.object(forKey: APP) as! NSString
 
 let request = NSMutableURLRequest(url: URL(string: "https://api.pushover.net/1/messages.json")!)
 request.httpMethod = "POST"
-request.httpBody = "token=\(APPKEY)&user=\(USER)&message=hi".data(using: String.Encoding.utf8);
+request.httpBody = "token=\(APPKEY)&user=\(USER)&message=\(MESSAGE)".data(using: String.Encoding.utf8);
 
 let urlData = try NSURLConnection.sendSynchronousRequest(request as URLRequest, returning: nil)
 
