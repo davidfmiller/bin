@@ -1,0 +1,124 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# https://github.com/davidfmiller/catf
+
+
+import sys
+import os
+import pwd
+import getopt
+import json
+import tempfile
+import subprocess
+
+plainText = False
+
+try:
+  import pygments
+  from pygments.lexers import guess_lexer, guess_lexer_for_filename
+  from pygments import highlight
+  from pygments.formatters import Terminal256Formatter
+  from pygments.util import ClassNotFound
+except ImportError:
+  sys.stderr.write("🚫  A required dependency is not installed; see http://davidfmiller.github.io/catf/ for more information\n")
+  plainText = True
+
+def _catf(content, debug = False):
+  """
+  @param content (String) - the original contents of the file that should be sent to stdio
+  @param debug (Boolean, optional) - flag controlling display of debug info
+  """
+
+  if plainText:
+    sys.stdout.write(content)
+  else:
+    try:
+
+      lex = guess_lexer(content)
+
+      if debug:
+        sys.stderr.write(str(lex) + "\n")
+
+      sys.stdout.write(highlight(content, lex, Terminal256Formatter()))
+
+    except ClassNotFound:
+
+      # if no class found, try json
+      try:
+        o = json.loads(content)
+        with tempfile.NamedTemporaryFile() as f:
+          json.dump(o, f, sort_keys=True, indent=2)
+          f.flush()
+          with open(f.name, "r") as f:
+            sys.stdout.write(highlight(f.read(), pygments.lexers.data.JsonLexer(), Terminal256Formatter()))
+
+      # simply print the contents if no supported lexer is found
+      except ValueError:
+        sys.stdout.write(content)
+
+if __name__ == '__main__':
+
+  debug = False
+  VERSION = "0.0.1"
+
+  try:
+    opts, args = getopt.getopt(sys.argv[1:], 'hudv', ['help', 'url', 'debug', 'version'])
+  except getopt.GetoptError:
+    raise SystemExit("🚫  Incorrect usage")
+
+  for opt, arg in opts:
+
+    if opt == '-d' or opt == '--debug':
+      debug = True
+
+#    elif opt == '-n' or opt == '--numbers':
+#      sys.stderr.write("Line #s coming soon\n");
+
+    elif opt == '-v' or opt == '--version':
+      sys.stdout.write("🐱  v" + VERSION + "\n");
+      sys.exit();
+
+    elif opt == '-h' or opt == '--help':
+      sys.stdout.write("""🐱  catf [filenames ...]
+🌏  https://davidfmiller.github.io/catf\n""")
+      sys.exit();
+
+    elif opt == '-u' or opt == '--url':
+      try:
+        out,err = subprocess.Popen(["open", "https://davidfmiller.github.io/catf"], stdout=subprocess.PIPE).communicate()
+        sys.exit()
+      except OSError:
+        raise SystemExit("🌏  https://davidfmiller.github.io/catf")
+
+  if not sys.stdin.isatty():
+    content = ''
+    for line in sys.stdin:
+      content += line
+    _catf(content, debug)
+
+  else:
+
+    for arg in args:
+
+      try:
+        path = os.path.abspath(os.path.join(os.getcwd(), arg))
+      except OSError:
+        raise SystemExit("🚫  Unable to determine current directory\n")
+
+      if not os.path.exists(path):
+        sys.stderr.write("🚫  File '" + arg + "' doesn't exist\n")
+      else:
+
+        name, extension = os.path.splitext(path)
+        extension = extension.upper()
+
+        with open(path) as f:
+
+          contents = "".join(f.readlines())
+
+          # force 'plain-text' treatment of the following extensions
+          if extension in ['.MD', '.MARKDOWN', '.TXT']:
+            sys.stdout.write(contents)
+          else:
+            _catf(contents, debug)
