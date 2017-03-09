@@ -4,7 +4,7 @@
 
 OSX=`uname -a | grep 'Darwin' | sed 's/\///g'`
 PI=`uname -a | grep "raspberrypi" | sed 's/\///g'`
-LINUX=`uname -a | grep "linux" | sed 's/\///g'`
+LINUX=`uname -a | grep "Linux" | sed 's/\///g'`
 
 if [ ! -z "$OSX" ]
 then
