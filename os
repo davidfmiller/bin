@@ -4,7 +4,7 @@
 
 OSX=`uname -a | grep 'Darwin' | sed 's/\///g'`
 PI=`uname -a | grep "raspberrypi" | sed 's/\///g'`
-UBUNTU=`uname -a | grep "ubuntu" | sed 's/\///g'`
+LINUX=`uname -a | grep "linux" | sed 's/\///g'`
 
 if [ ! -z "$OSX" ]
 then
@@ -12,9 +12,9 @@ then
 elif [ ! -z "$PI" ]
 then
   echo "raspberry"
-elif [ ! -z "$UBUNTU" ]
+elif [ ! -z "$LINUX" ]
 then
-  echo "ubuntu"
+  echo "linux"
 else
   echo "?"
 fi
