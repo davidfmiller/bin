@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# https://github.com/davidfmiller/catf
+# https://github.com/davidfmiller/bin
 
 
 import sys
@@ -36,7 +36,6 @@ def _catf(content, debug = False):
     try:
 
       lex = guess_lexer(content)
-
       if debug:
         sys.stderr.write(str(lex) + "\n")
 
