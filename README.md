@@ -21,6 +21,9 @@ Echo the `data:` URI for the contents of a file. Supports the following types:
 
 Echo the current date in [RSS-compatible](http://www.faqs.org/rfcs/rfc2822.html) format.
 
+## git-rev
+
+Echo the newest git revision id from the current branch
 
 ## git-repo
 
