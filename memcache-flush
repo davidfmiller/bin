@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Flush all contents of memcache
+#
+# https://github.com/davidfmiller/bin
+
+echo 'flush_all' | nc localhost 11211

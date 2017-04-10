@@ -55,12 +55,17 @@ Create all watch OS icon variations from a master image (≥ 1024x1024):
 
     > watchos-icon [icon.png]
 
-
-
 ## json
 
 A simple JSON-formatter. Reads from `stdin`, prints to `stdout`.
 
+    > curl "https://readmeansrun.com/code/readmeansafari/test/json.php" | json
+
+## memcache-flush
+
+Flush contents of `memcached`
+
+    > memcache-flush
 
 ## os
 
@@ -68,6 +73,7 @@ A simple script to echo one of the following identifiers to `stdout` based on OS
 
  * `osx` - [Mac OS X](http://www.apple.com/osx/)
  * `raspberry` - [Raspbian](http://www.raspbian.org)
+ * `linux` - [Ubuntu](https://www.ubuntu.com)
  * `?` - Anything else
 
 
