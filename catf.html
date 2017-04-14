@@ -83,7 +83,6 @@
   <h2 id="options"><a href="#options">#</a>Options</h2>
   <dl>
     <dt><code>-d</code></dt>
-    <dt><code>--debug</code></dt>
     <dd>display (to <code>stderr</code>) which lexer is being used</dd>
 
 <!--
@@ -93,16 +92,24 @@
 -->
 
     <dt><code>-v</code></dt>
-    <dt><code>--version</code></dt>
     <dd>display version info</dd>
 
     <dt><code>-h</code></dt>
-    <dt><code>--help</code></dt>
     <dd>display help</dd>
 
     <dt><code>-u</code></dt>
-    <dt><code>--url</code></dt>
     <dd>open this page (OS X only)</dd>
+
+    <dt><code>-l {arg}</code></dt>
+    <dd>Force a specific lexer to be used, <code>{arg}</code> can be one of:
+      <ul>
+        <li>json</li>
+        <li>html</li>
+        <li>xml</li>
+      </ul>
+    </dd>
+
+
   </dl>
 
   <h2 id="history"><a href="#history">#</a>Version History</h2>
