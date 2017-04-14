@@ -17,6 +17,8 @@ plainText = False
 try:
   import pygments
   from pygments.lexers import guess_lexer, guess_lexer_for_filename
+  from pygments.lexers.data import JsonLexer
+#  from pygments.lexers import HtmlLexer
   from pygments import highlight
   from pygments.formatters import Terminal256Formatter
   from pygments.util import ClassNotFound
@@ -24,7 +26,7 @@ except ImportError:
   sys.stderr.write("🚫  A required dependency is not installed; see http://davidfmiller.github.io/catf/ for more information\n")
   plainText = True
 
-def _catf(content, debug = False):
+def _catf(content, lexer = None, debug = False):
   """
   @param content (String) - the original contents of the file that should be sent to stdio
   @param debug (Boolean, optional) - flag controlling display of debug info
@@ -34,27 +36,20 @@ def _catf(content, debug = False):
     sys.stdout.write(content)
   else:
     try:
+      if lexer == None:
+        lex = guess_lexer(content)
+      else:
+        lex = lexer
 
-      lex = guess_lexer(content)
       if debug:
         sys.stderr.write(str(lex) + "\n")
 
       sys.stdout.write(highlight(content, lex, Terminal256Formatter()))
 
-    except ClassNotFound:
-
-      # if no class found, try json
-      try:
-        o = json.loads(content)
-        with tempfile.NamedTemporaryFile() as f:
-          json.dump(o, f, sort_keys=True, indent=2)
-          f.flush()
-          with open(f.name, "r") as f:
-            sys.stdout.write(highlight(f.read(), pygments.lexers.data.JsonLexer(), Terminal256Formatter()))
-
       # simply print the contents if no supported lexer is found
-      except ValueError:
-        sys.stdout.write(content)
+    except:
+      sys.stdout.write(content)
+
 
 if __name__ == '__main__':
 
@@ -62,9 +57,12 @@ if __name__ == '__main__':
   VERSION = "0.0.1"
 
   try:
-    opts, args = getopt.getopt(sys.argv[1:], 'hudv', ['help', 'url', 'debug', 'version'])
+    opts, args = getopt.getopt(sys.argv[1:], 'hudvl:')
   except getopt.GetoptError:
     raise SystemExit("🚫  Incorrect usage")
+
+  # assume no known lexer
+  lex = None;
 
   for opt, arg in opts:
 
@@ -90,11 +88,19 @@ if __name__ == '__main__':
       except OSError:
         raise SystemExit("🌏  https://davidfmiller.github.io/catf")
 
+    elif opt == '-l' or opt == '--lexer':
+      if arg == 'json':
+        lex = JsonLexer();
+      elif arg == 'html':
+        lex = pygments.lexers.HtmlLexer();
+      else:
+        raise SystemExit("🚫  Unknown lexer `" + arg + "`");
+
   if not sys.stdin.isatty():
     content = ''
     for line in sys.stdin:
       content += line
-    _catf(content, debug)
+    _catf(content, lex, debug)
 
   else:
 
@@ -120,4 +126,4 @@ if __name__ == '__main__':
           if extension in ['.MD', '.MARKDOWN', '.TXT']:
             sys.stdout.write(contents)
           else:
-            _catf(contents, debug)
+            _catf(contents, lex, debug)

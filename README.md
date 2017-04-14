@@ -63,7 +63,7 @@ A simple JSON-formatter. Reads from `stdin`, prints to `stdout`.
 
 ## memcache-flush
 
-Flush contents of `memcached`
+Flush contents of [`memcached`](https://memcached.org)
 
     > memcache-flush
 
