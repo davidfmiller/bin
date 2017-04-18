@@ -17,10 +17,11 @@ plainText = False
 try:
   import pygments
   from pygments.lexers import guess_lexer, guess_lexer_for_filename
-  from pygments.lexers import JsonLexer
   from pygments import highlight
   from pygments.formatters import Terminal256Formatter
   from pygments.util import ClassNotFound
+  import pygments_markdown_lexer
+
 except ImportError:
   sys.stderr.write("🚫  A required dependency is not installed; see http://davidfmiller.github.io/catf/ for more information\n")
   plainText = True
@@ -94,6 +95,8 @@ if __name__ == '__main__':
         lex = pygments.lexers.HtmlLexer()
       elif arg == 'xml':
         lex = pygments.lexers.XmlLexer()
+      elif arg == 'md':
+        lex = pygments_markdown_lexer.lexer.MarkdownLexer()
 
       else:
         raise SystemExit("🚫  Unknown lexer `" + arg + "`");
@@ -125,11 +128,11 @@ if __name__ == '__main__':
           contents = "".join(f.readlines())
 
           # force 'plain-text' treatment of the following extensions
-          if extension in ['.MD', '.MARKDOWN', '.TXT']:
-            sys.stdout.write(contents)
+#          if extension in ['.MD', '.MARKDOWN', '.TXT']:
+#            sys.stdout.write(contents)
 
           # force json lexer since pygments doesn't recognize .json extension
-          elif extension == '.JSON':
+          if extension == '.JSON':
             _catf(contents, pygments.lexers.JsonLexer(), debug)
           else:
             _catf(contents, lex, debug)
