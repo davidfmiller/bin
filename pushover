@@ -76,29 +76,15 @@ let request = NSMutableURLRequest(url: URL(string: "\(HOST)/1/messages.json")!)
 request.httpMethod = "POST"
 request.httpBody = "token=\(APPKEY)&user=\(USER)&message=\(MESSAGE)".data(using: String.Encoding.utf8);
 
-//do {
-
 let semaphore = DispatchSemaphore(value: 0)
 
-//  let sessionConfiguration = URLSessionConfiguration.default
-  let task = URLSession.shared.dataTask(with: request as URLRequest) {(data, response, error) in
-    if error != nil {
-      stderr.write("🚫  \(error!)\n".data(using: String.Encoding.utf8)!)
-      exit(0)
-    }
-    else {
-//      stdout.write("\(response!)".data(using: String.Encoding.utf8)!)
-    }
-    semaphore.signal()
+let task = URLSession.shared.dataTask(with: request as URLRequest) {(data, response, error) in
+  if error != nil {
+    stderr.write("🚫  \(error!)\n".data(using: String.Encoding.utf8)!)
+    exit(0)
   }
-  task.resume()
-  _ = semaphore.wait(timeout: DispatchTime.distantFuture)
 
-/*
-  let urlData = try NSURLConnection.sendSynchronousRequest(request as URLRequest, returning: nil)
-  try JSONSerialization.jsonObject(with: urlData, options: JSONSerialization.ReadingOptions.mutableContainers)
-  */
-//}
-//catch let error as NSError {
-
-//}
+  semaphore.signal()
+}
+task.resume()
+_ = semaphore.wait(timeout: DispatchTime.distantFuture)
