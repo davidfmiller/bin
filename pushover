@@ -7,6 +7,7 @@ import Cocoa
 import Darwin
 
 let stderr = FileHandle.standardError
+let stdout = FileHandle.standardOutput
 
 let PATH = NSString(string: "~/.pushover.plist").expandingTildeInPath
 
@@ -75,16 +76,29 @@ let request = NSMutableURLRequest(url: URL(string: "\(HOST)/1/messages.json")!)
 request.httpMethod = "POST"
 request.httpBody = "token=\(APPKEY)&user=\(USER)&message=\(MESSAGE)".data(using: String.Encoding.utf8);
 
-do {
+//do {
+
+let semaphore = DispatchSemaphore(value: 0)
+
+//  let sessionConfiguration = URLSessionConfiguration.default
+  let task = URLSession.shared.dataTask(with: request as URLRequest) {(data, response, error) in
+    if error != nil {
+      stderr.write("🚫  \(error!)\n".data(using: String.Encoding.utf8)!)
+      exit(0)
+    }
+    else {
+//      stdout.write("\(response!)".data(using: String.Encoding.utf8)!)
+    }
+    semaphore.signal()
+  }
+  task.resume()
+  _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+
+/*
   let urlData = try NSURLConnection.sendSynchronousRequest(request as URLRequest, returning: nil)
   try JSONSerialization.jsonObject(with: urlData, options: JSONSerialization.ReadingOptions.mutableContainers)
-}
-catch let error as NSError {
-  if error.domain == NSURLErrorDomain {
-    stderr.write("🚫  Unable to connect to \(HOST)\n".data(using: String.Encoding.utf8)!)
-  }
-  else {
-    stderr.write("🚫  \(error)\n".data(using: String.Encoding.utf8)!)
-  }
-  exit(0)
-}
+  */
+//}
+//catch let error as NSError {
+
+//}
