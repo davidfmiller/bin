@@ -48,6 +48,5 @@ sips -Z 16 "$1" --out "$target/icon_16x16.${extension}"
 
 iconutil -c icns $target
 
-rm -R $target
-
-#open "$target"
+#rm -R $target
+open -R "$target"
