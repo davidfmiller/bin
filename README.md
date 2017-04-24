@@ -2,6 +2,14 @@
 
 Random shell scripts, primarily for macOS
 
+## catf
+
+Echo the contents of a file with [Pygments](http://pygments.org)-powered syntax highlighting.
+
+	> catf [filename]
+
+
+
 ## data-uri
 
 Echo the `data:` URI for the contents of a file. Supports the following types:
@@ -29,8 +37,7 @@ Echo the newest git revision id from the current branch
 
 Open the remote host for a git repository in your web browser of choice. Currently supports [GitHub](https://github.com), [BitBucket](https://bitbucket.org), & [GitLab](https://gitlab.com).
 
-    > git-repo [filename]
-
+    > git-repo [path]
 
 ## icon-reset
 
@@ -43,17 +50,18 @@ Create all iMessage app icon variations from a master image (≥ 1024x768):
     > imessage-icon [icon.png]
 
 
-## ios-icon
+## ios-application-icon
 
 Create all iOS icon variations from a master image (≥ 1024x1024):
 
     > ios-icon [icon.png]
 
-## watchos-icon
+## macos-application-icon
 
-Create all watch OS icon variations from a master image (≥ 1024x1024):
+Create a `.icns` file 
 
-    > watchos-icon [icon.png]
+    > macos-application-icon [icon.png]
+
 
 ## json
 
@@ -90,8 +98,6 @@ Easily send messages to the [Pushover](https://pushover.net) API
 
   `> pushover {application} {message}`
 
-
-
 ## restart
 
 Restarts your computer, handles macOS restarts somewhat gracefully
@@ -117,3 +123,15 @@ Echo the file-system URL (or internet URL for `.webloc` files) for arguments
 Echo the [UTI](https://developer.apple.com/library/content/documentation/General/Conceptual/DevPedia-CocoaCore/UniformTypeIdentifier.html) for files provided as arguments
 
     > uti [file(s)]
+
+## watchos-applicaiton-icon
+
+Create all watch OS application icon variations from a master image (≥ 1024x1024):
+
+    > watchos-application-icon [icon.png]
+
+## watchos-complication-icon
+
+Create all watch OS complication icon variations from a master image (≥ 1024x1024):
+
+    > watchos-complication-icon [icon.png]
