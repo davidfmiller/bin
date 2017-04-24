@@ -8,7 +8,7 @@ Echo the contents of a file with [Pygments](http://pygments.org)-powered syntax 
 
 	> catf [filename]
 
-
+See [http://davidfmiller.github.io/bin/catf.html](http://davidfmiller.github.io/bin/catf.html) for more info.
 
 ## data-uri
 
@@ -24,14 +24,19 @@ Echo the `data:` URI for the contents of a file. Supports the following types:
  * `svg`
  * `txt` (default)
 
+	> data-uri [filename]
 
 ## date-rss
 
 Echo the current date in [RSS-compatible](http://www.faqs.org/rfcs/rfc2822.html) format.
 
+	> date-rss
+
 ## git-rev
 
 Echo the newest git revision id from the current branch
+
+	> git-rev
 
 ## git-repo
 
