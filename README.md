@@ -61,9 +61,9 @@ Create all iOS icon variations from a master image (≥ 1024x1024):
 
     > ios-icon [icon.png]
 
-## macos-application-icon
+## macos-icon
 
-Create a `.icns` file 
+Create a `.icns` file for Mac applications, documents, & other resources
 
     > macos-application-icon [icon.png]
 
@@ -129,7 +129,7 @@ Echo the [UTI](https://developer.apple.com/library/content/documentation/General
 
     > uti [file(s)]
 
-## watchos-applicaiton-icon
+## watchos-application-icon
 
 Create all watch OS application icon variations from a master image (≥ 1024x1024):
 
