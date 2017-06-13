@@ -1,6 +1,10 @@
 #!/usr/bin/env swift
 
-// https://github.com/davidfmiller/bin
+/*
+https://github.com/davidfmiller/bin
+
+Echo contents of a text-clipping file to stdout
+*/
 
 import Foundation
 import Cocoa
@@ -18,51 +22,15 @@ if ARGUMENTS.count < 1 {
 
 var i = 0
 for i in ARGUMENTS {
-  let name = ARGUMENTS[0]
 
-  let config : NSDictionary? = NSDictionary(contentsOfFile:name)
+  let fileURL = URL(string: i)!
+
+  if fileURL.pathExtension != "textClipping" {
+    stderr.write("🚫  \(i) is not a text clipping\n".data(using: String.Encoding.utf8)!)
+    continue
+  }
+
+  let config : NSDictionary? = NSDictionary(contentsOfFile:i)
   let dict : NSDictionary = config!["UTI-Data"] as! NSDictionary
   print("\(dict["public.utf8-plain-text"]!)")
 }
-
-/*
-let PATH = NSString(string: "~/.pushover.plist").expandingTildeInPath
-
-if (config!.object(forKey:"user") == nil) {
-  stderr.write("🚫  `user` identifier does not exist in \(PATH)\n".data(using: String.Encoding.utf8)!)
-  exit(0)
-}
-
-if (config!.object(forKey:"applications") == nil) {
-  stderr.write("🚫  `applications` dictionary does not exist in \(PATH)\n".data(using: String.Encoding.utf8)!)
-  exit(0)
-}
-
-let apps : NSDictionary = config!.object(forKey:"applications") as! NSDictionary
-
-if (apps.object(forKey:APP) == nil) {
-  stderr.write("🚫  application `\(APP)` does not exist in \(PATH)\n".data(using: String.Encoding.utf8)!)
-  exit(0)
-}
-
-let USER : String = config!.object(forKey:"user") as! String
-let APPKEY : NSString = apps.object(forKey: APP) as! NSString
-let HOST = "https://api.pushover.net"
-
-let request = NSMutableURLRequest(url: URL(string: "\(HOST)/1/messages.json")!)
-request.httpMethod = "POST"
-request.httpBody = "token=\(APPKEY)&user=\(USER)&message=\(MESSAGE)".data(using: String.Encoding.utf8);
-
-let semaphore = DispatchSemaphore(value: 0)
-
-let task = URLSession.shared.dataTask(with: request as URLRequest) {(data, response, error) in
-  if error != nil {
-    stderr.write("🚫  \(error!)\n".data(using: String.Encoding.utf8)!)
-    exit(0)
-  }
-
-  semaphore.signal()
-}
-task.resume()
-_ = semaphore.wait(timeout: DispatchTime.distantFuture)
-*/
