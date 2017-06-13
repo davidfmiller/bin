@@ -13,6 +13,7 @@ import tempfile
 import subprocess
 
 plainText = False
+CATFDIR = os.path.dirname(os.path.realpath(__file__))
 
 try:
   import pygments
@@ -126,9 +127,12 @@ if __name__ == '__main__':
         with open(path) as f:
 
           if extension == '.TEXTCLIPPING':
-            catfdir = os.path.dirname(os.path.realpath(__file__))
-            out,err = subprocess.Popen([catfdir + '/text-clipping', path], stdout=subprocess.PIPE).communicate()
-            sys.stdout.write(out)
+
+            try:
+              out,err = subprocess.Popen([CATFDIR + '/text-clipping', path], stdout=subprocess.PIPE).communicate()
+              sys.stdout.write(out)
+            except:
+              sys.stderr.write("🚫  Unable to read " + path + "\n")
 
           else:
 
