@@ -20,17 +20,16 @@ if ARGUMENTS.count < 1 {
   exit(0)
 }
 
-var i = 0
-for i in ARGUMENTS {
+for path in ARGUMENTS {
 
-  let fileURL = URL(string: i)!
+  let fileURL = URL(string: path)!
 
   if fileURL.pathExtension != "textClipping" {
-    stderr.write("🚫  \(i) is not a text clipping\n".data(using: String.Encoding.utf8)!)
+    stderr.write("🚫  \(path) is not a text clipping\n".data(using: String.Encoding.utf8)!)
     continue
   }
 
-  let config : NSDictionary? = NSDictionary(contentsOfFile:i)
+  let config : NSDictionary? = NSDictionary(contentsOfFile:path)
   let dict : NSDictionary = config!["UTI-Data"] as! NSDictionary
   print("\(dict["public.utf8-plain-text"]!)")
 }
