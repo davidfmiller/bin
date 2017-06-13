@@ -7,21 +7,22 @@ Echo contents of a text-clipping file to stdout
 */
 
 import Foundation
+import Cocoa
 import Darwin
 
 let stderr = FileHandle.standardError
 let stdout = FileHandle.standardOutput
 
+let os = ProcessInfo().operatingSystemVersion
+if os.minorVersion < 12 {
+  stderr.write("🚫  Unable to read textClipping on macOS versions < 10.12\n".data(using: String.Encoding.utf8)!);
+  exit(0)
+}
+
 let ARGUMENTS = Array(CommandLine.arguments[1 ..< CommandLine.arguments.count])
 
 if ARGUMENTS.count < 1 {
   stderr.write("🚫  Usage: > text-clipping {path}\n".data(using: String.Encoding.utf8)!)
-  exit(0)
-}
-
-let os = ProcessInfo().operatingSystemVersion
-if os.minorVersion < 12 {
-  stderr.write("🚫  Unable to read textClipping on macOS versions < 10.12\n".data(using: String.Encoding.utf8)!);
   exit(0)
 }
 
@@ -35,6 +36,8 @@ for path in ARGUMENTS {
   }
 
   let config : NSDictionary? = NSDictionary(contentsOfFile:path)
-  let dict : NSDictionary = config!["UTI-Data"] as! NSDictionary
-  print("\(dict["public.utf8-plain-text"]!)")
+  let dict : NSDictionary? = (config!["UTI-Data"] as! NSDictionary)
+  if dict != nil {
+    print("\(dict!["public.utf8-plain-text"]!)")
+  }
 }
