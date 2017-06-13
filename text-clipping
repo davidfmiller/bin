@@ -22,8 +22,10 @@ if ARGUMENTS.count < 1 {
 
 
 let os = ProcessInfo().operatingSystemVersion
-  
-print("\(os)")
+if os.minorVersion < 12 {
+  stderr.write("🚫  Unable to read textClipping on macOS versions < 10.12\n".data(using: String.Encoding.utf8)!);
+  exit(0)
+}
 
 for path in ARGUMENTS {
 
