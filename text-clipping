@@ -7,7 +7,6 @@ Echo contents of a text-clipping file to stdout
 */
 
 import Foundation
-import Cocoa
 import Darwin
 
 let stderr = FileHandle.standardError
@@ -19,7 +18,6 @@ if ARGUMENTS.count < 1 {
   stderr.write("🚫  Usage: > text-clipping {path}\n".data(using: String.Encoding.utf8)!)
   exit(0)
 }
-
 
 let os = ProcessInfo().operatingSystemVersion
 if os.minorVersion < 12 {
@@ -35,8 +33,6 @@ for path in ARGUMENTS {
     stderr.write("🚫  \(path) is not a text clipping\n".data(using: String.Encoding.utf8)!)
     continue
   }
-
-
 
   let config : NSDictionary? = NSDictionary(contentsOfFile:path)
   let dict : NSDictionary = config!["UTI-Data"] as! NSDictionary
