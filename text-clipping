@@ -20,6 +20,11 @@ if ARGUMENTS.count < 1 {
   exit(0)
 }
 
+
+let os = ProcessInfo().operatingSystemVersion
+  
+print("\(os)")
+
 for path in ARGUMENTS {
 
   let fileURL = URL(string: path)!
@@ -28,6 +33,8 @@ for path in ARGUMENTS {
     stderr.write("🚫  \(path) is not a text clipping\n".data(using: String.Encoding.utf8)!)
     continue
   }
+
+
 
   let config : NSDictionary? = NSDictionary(contentsOfFile:path)
   let dict : NSDictionary = config!["UTI-Data"] as! NSDictionary
