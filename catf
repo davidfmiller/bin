@@ -124,26 +124,30 @@ if __name__ == '__main__':
         name, extension = os.path.splitext(path)
         extension = extension.upper()
 
-        with open(path) as f:
+        if os.path.isdir(path):
+          sys.stderr.write("🚫  File '" + arg + "' is a directory\n")
+        else:
 
-          if extension == '.TEXTCLIPPING':
+          with open(path) as f:
 
-            try:
-              out,err = subprocess.Popen([CATFDIR + '/text-clipping', path], stdout=subprocess.PIPE).communicate()
-              sys.stdout.write(out)
-            except:
-              sys.stderr.write("🚫  Unable to read " + path + "\n")
+            if extension == '.TEXTCLIPPING':
 
-          else:
+              try:
+                out,err = subprocess.Popen([CATFDIR + '/text-clipping', path], stdout=subprocess.PIPE).communicate()
+                sys.stdout.write(out)
+              except:
+                sys.stderr.write("🚫  Unable to read " + path + "\n")
 
-            contents = "".join(f.readlines())
-
-            # force 'plain-text' treatment of the following extensions
-  #          if extension in ['.MD', '.MARKDOWN', '.TXT']:
-  #            sys.stdout.write(contents)
-
-            # force json lexer since pygments doesn't recognize .json extension
-            if extension == '.JSON':
-              _catf(contents, pygments.lexers.JsonLexer(), debug)
             else:
-              _catf(contents, lex, debug)
+
+              contents = "".join(f.readlines())
+
+              # force 'plain-text' treatment of the following extensions
+    #          if extension in ['.MD', '.MARKDOWN', '.TXT']:
+    #            sys.stdout.write(contents)
+
+              # force json lexer since pygments doesn't recognize .json extension
+              if extension == '.JSON':
+                _catf(contents, pygments.lexers.JsonLexer(), debug)
+              else:
+                _catf(contents, lex, debug)
