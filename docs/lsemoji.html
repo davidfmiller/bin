@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>lsemoji</title>
+  <meta charset="utf-8">
+  <meta name="viewport" value="width=960">
+  <link rel="stylesheet" type="text/css" href="http://davidfmiller.github.io/man/man.css">
+</head>
+<body>
+
+<div id="man">
+  <h1><i>📄</i> <code>lsemoji</code></h1>
+
+  <p>&hellip; is a human-friendly <code><a href="https://en.wikipedia.org/wiki/Ls" title="ls">ls</a></code>.
+
+  <h2 id="usage"><a href="#usage">#</a>Usage</h2>
+
+  <pre><i>⚡</i>  lsemoji ~/files/
+📂  dir
+📦  archive.zip
+🎵  audio.m4a
+📕  book.epub
+📅  calendar.ics
+💬  chat.ichat
+👤  contact.vcf
+📝  document.pdf
+📫  email.eml
+🎑  image.png
+📃  javascript.js
+🌏  link.url
+📍  map.gpx
+📝  markdown.md
+📰  news.rss
+🌏  page.html
+📃  python.py
+📊  spreadsheet.xls
+🎨  styles.css
+📝  text.rtf
+📄  text.txt
+🎬  video.mp4
+📝  word.doc</pre>
+  <p>TODO</p>
+
+  <h2 id="options"><a href="#options">#</a>Options</h2>
+
+  <dl>
+    <dt><code>-g</code></dt>
+    <dt><code>--glyph</code></dt>
+    <dd>Only print the glyph(s) for the file(s) passed as arguments (one-per-line), ex:</dd>
+    <dd>
+      <pre><i>⚡</i> lsemoji -g / ~ <span class="c"># list gylphs for the filesystem root and your home folder</span>
+💻
+🏡</pre>
+    </dd>
+
+    <dt><code>-v</code></dt>
+    <dt><code>--version</code></dt>
+    <dd>Display version information; view the <a href="#history">history</a>.</dd>
+
+    <dt><code>-a</code></dt>
+    <dt><code>--all</code></dt>
+    <dd>Include hidden files (whose names begin with a ".") in file list</dd>
+
+    <dt><code>-c</code></dt>
+    <dt><code>--case</code></dt>
+    <dd>Enable case-sensitive name sorting</dd>
+
+    <dt><code>-f</code></dt>
+    <dt><code>--files</code></dt>
+    <dd>Only include files in the listing, excluding directories</dd>
+
+    <dt><code>-d</code></dt>
+    <dt><code>--dirs</code></dt>
+    <dd>Only include directories in the listing, excluding files</dd>
+
+    <dt><code>-k</code></dt>
+    <dd>Interleave files and directories (by default directories are listed first)</dd>
+
+    <dt><code>-l</code></dt>
+    <dt><code>--long</code></dt>
+    <dd>Long format, which displays permissions, owner & group, size, modification date, etc.</dd>
+
+    <dt><code>-e</code></dt>
+    <dt><code>--long</code></dt>
+    <dd>Similar to <code>-l</code>, but consecutive data will not be displayed, ex:</dd>
+
+
+    <dt><code>-m</code></dt>
+    <dd>Sort by file modification date (oldest first)</dd>
+
+    <dt><code>-r</code></dt>
+    <dd>Reverse sort direction</dd>
+
+    <dt><code>-s</code></dt>
+    <dt><code>--size</code></dt>
+    <dd>Sort by file size (smallest first); directories are sorted by the number of files within them</dd>
+
+    <dt><code>--prefix</code></dt>
+    <dd>Add the argument value to the beginning of each line of output in the listing, ex:</dd>
+    <dd>
+      <pre>
+<i>⚡</i> lsemoji --prefix="   " ~/files/ <span class="c"># prefix each line of output with 4 spaces</span>
+   📕  book.epub
+   📅  calendar.ics
+   💬  chat.ichat
+   👤  contact.vcf</pre>
+    </dd>
+  </dl>
+
+  <h2 id="todo"><a href="#todo">#</a>TODO</h2>
+
+
+  <ul>
+    <li>Remove <code>--prefix</code>, can be replaced with <code>sed/awk</code></li>
+  </ul>
+
+  <h2 id="history"><a href="#history">#</a>Version History</h2>
+  <dl>
+    <dt><code>v0.0.1</code> - ???</dt>
+    <dd>Initial release</dd>
+  </dl>
+
+  <h2 id="contribute"><a href="#contribute">#</a>Contribute</h2>
+
+  <p><a href="https://github.com/davidfmiller/catf" title="Clone on GitHub">Clone it</a>.</p>
+
+</div>
+
+</body>
+</html>
