@@ -1,0 +1,572 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+
+"""
+lsemoji
+A human-friendly ls
+http://davidfmiller.github.io/lsemoji/
+"""
+
+# todo:
+# ignore hidden files
+
+import sys
+import os
+import math
+import getopt
+import subprocess
+
+import pwd
+import grp
+
+from datetime import datetime
+
+VERSION = "0.0.1"
+
+PACKAGES = [
+  '.APP',                  # application
+  '.APPEX',                # ios app extension 
+  '.BBPROJECTD',           # bbedit project
+  '.BZPKG',                # backblaze package
+  '.CLR',                  # color list
+  '.COLORPICKER',          # system color picker
+  '.DOWNLOAD',             # incomplete safari download
+  '.FRAMEWORK',            # framework
+  '.GSTENCIL',             # omnigraffle stencil
+  '.LBACTION',             # launchbar action
+  '.LBTHEME',              # launchbar theme
+  '.LRDATA',               # adobe photoshop lightroom library
+  '.MIGRATEDPHOTOLIBRARY', # iphoto library
+  '.PAINTCODE',            # paintcode
+  '.PLAYGROUND',           # swift playground
+  '.PREFPANE',             # system preference pane
+  '.QLGENERATOR',          # quick look generator
+  '.RTFD',                 # rich text 
+  '.SAVER',                # screen saver
+  '.SKETCHPLUGIN',         # sketch plugin
+  '.SCPTD',                # applescript 
+  '.XCODEPROJ',            # xcode project
+  '.XCTEST',               # xcode test bundle
+  '.XCARCHIVE',            # xcode app build archive
+  '.XCWORKSPACE',          # xcode workspace
+  '.XCDATAMODELD',         # xcode core data model
+  '.PHOTOSLIBRARY',        # iphotos
+  '.WORKFLOW',             # automator workflow
+  '.SERVICE'               # os x system service
+  ]
+
+map = {
+
+  # special
+  'HOME'         : "🏡",
+  'MOUNT'        : "📀",
+  'FOLDER'       : "📂",
+  'FOLDER_EMPTY' : "📁",
+  'DEFAULT'      : "📄",
+  'ROOT'         : "💻",
+  'LINK'         : "🔗",
+
+  # audio
+  '.AIFF' : "🎵",
+  '.M4A' :  "🎵",
+  '.M4R' :  "🎵",
+  '.MP3' :  "🎵",
+  '.WAV' :  "🎵",
+  '.OGG' :  "🎵",
+
+  # video
+  '.MKV'  : "🎬",
+  '.M4V'  : "🎬",
+  '.MOV'  : "🎬",
+  '.MPEG' : "🎬",
+  '.MP4'  : "🎬",
+  '.WEBM'  : "🎬",
+
+  # books
+  '.EPUB' : "📕",
+  '.MOBI' : "📕",
+
+  # images
+  '.AI'      : "🖼",
+  '.BMP'     : "🖼",
+  '.CR2'     : "🖼",
+  '.DNG'     : "🖼",
+  '.GIF'     : "🖼",
+  '.HEIF'    : "🖼",
+  '.HEIC'    : "🖼",
+  '.ICO'     : "🖼",
+  '.ICNS'    : "🖼",
+  '.INDD'    : "🖼",
+  '.JPG'     : "🖼",
+  '.JPEG'    : "🖼",
+  '.JP2'     : "🖼",
+  '.WEBP'    : "🖼",
+  '.PNG'     : "🖼",
+  '.PSD'     : "🖼",
+  '.PCVD'    : "🖼",
+  '.SKETCH'  : "🖼",
+  '.SVG'     : "🖼",
+  '.TIF'     : "🖼",
+  '.TIFF'    : "🖼",
+
+  # scripts
+  '.CLJ'         : "📃", # clojure
+  '.COFFEE'      : "📃", # coffeescript
+  '.CSON'        : "📃", # coffeescript object notation 
+  '.DUST'        : "📃", # dust template
+  '.ERL'         : "📃", # erlang
+  '.GO'          : "📃", # go
+  '.GROOVY'      : "📃", # groovy
+  '.JS'          : "📃", # javascript
+  '.JSON'        : "📃", # json
+  '.LIQUID'      : "📃", # liquid template
+  '.ML'          : "📃", # ocaml
+  '.HS'          : "📃", # haskell
+  '.PHAR'        : "⚙", # php archive
+  '.PHP'         : "📃", # php
+  '.PL'          : "📃", # perl
+  '.PY'          : "📃", # python
+  '.RB'          : "📃", # ruby
+  '.RS'          : "📃", # rust
+  '.SH'          : "📃", # shell
+  '.SQL'         : "📃", # sql
+  '.SCPT'        : "🍎", # applescript
+  '.SCPTD'       : "🍎", # applescript
+  '.APPLESCRIPT' : "🍎", # applescript
+
+
+  # text/source
+  '.APPCACHE' : "🌏", # html 5 app cache
+  '.ATOM'     : "📰", # atom
+  '.C'        : "📄", # c
+  '.CER'      : "🔑", # certificate request
+  '.CERTSIGNINGREQUEST' : "🔑", # certificate request
+  '.CPP'      : "📄", # c++
+  '.CRASH'    : "💥", # crash log
+  '.CS'       : "📄", # c#
+  '.CSS'      : "🎨", # stylesheet
+  '.TXT'      : "📄", # plain-text
+  '.JAVA'     : "📄", # java
+  '.M'        : "📄", # objective-c
+  '.MM'       : "📄", # objective-c & c++
+  '.H'        : "📄", # c
+  '.EML'      : "📫", # email
+  '.ICS'      : "📅", # calendar
+  '.HAR'      : "🌏", # browser json archive
+  '.HTML'     : "🌏", # webpage
+  '.HTM'      : "🌏", # webpage
+  '.LESS'     : "🎨", # stylesheet
+  '.MARKDOWN' : "📝", # markdown
+  '.MD'       : "📝", # markdown
+  '.RST'      : "📝", # restructured text
+  '.RSS'      : "📰", # rss
+  '.SCSS'     : "🎨", # stylesheet
+  '.STRINGS'  : "💬", # string translation file
+  '.SWIFT'    : "📄", # swift
+  '.TERMINAL' : "📄", # saved terminal.app window setting
+  '.VCF'      : "👤", # vcard
+
+
+  # misc
+  '.ACO'   : "🎨", # adobe palette
+  '.ASE'   : "🎨", # adobe palette
+  '.APP'   : "⚙", # application
+  '.APPEX' : "⚙", # application extension
+  '.CSV'   : "📊", # comma-separated data
+  '.DMG'   : "💿", # disk image
+  '.DOC'   : "📝", # word document
+  '.DOCX'  : "📝", # "
+  '.PAGES' : "📝", # pages document
+  '.EXE'   : "🔧", # application
+  '.FIT'   : "📍", # garmin fit file
+  '.GPX'   : "📍", # map file
+  '.GRAFFLE'    : "📝", # graffle
+  '.HTTPCLIENT' : "🌏", # http client
+  '.ICHAT' : "💬", # ichat archive
+  '.JAR'   : "☕", # java archive
+  '.KEY'   : "🔑", # SSL key
+  '.KML'   : "📍", # google earth
+  '.LOCK'  : "🔒", # lock file
+  '.LRCAT' : "🗄",  # lightroom catalog
+  '.LRCAT-JOURNAL' : "🗄",   # lightroom catalog
+  '.MOBILEPROVISION' : "🔑", # mobile provision
+  '.MSG'      : "📫", # windows email
+  '.NUMBERS' : "📊", # numbers spreadsheet
+  '.OOUTLINE' : "✅", # omnioutliner
+  '.OTF'    : "🖋", # opentype font
+  '.PEM'    : "🔑", # SSL cert
+  '.PKPASS' : '🎟', # apple wallet 
+  '.RTF'   : "📝", # rich text documents
+  '.RTFD'  : "📝", # rich text document package
+  '.STORYBOARD'  : "📓", # xcode storyboard interface file
+  '.TCX'   : "📍", # map file
+  '.TSV'   : "📊", # tab-separated data
+  '.TTF'   : "🖊", # truetype font
+  '.EOT'   : "🖊", # ?? font
+  '.WOFF'  : "🖊", # ?? font
+  '.WOFF2' : "🖊", # ?? font
+
+  '.XLS'   : "📊", # excel spreadsheet
+  '.XLSX'  : "📊", # excel spreadsheet
+  '.XPS'   : "📝", # 
+
+  '.WAR'   : "☕", # java web archive
+  '.PDF'   : "📝", #
+  '.RBGB'  : "🎨", # color palette
+  '.SAVEDSEARCH' : "🔍", # macos finder saved search
+  '.SAFARIEXTZ' : "⚙", # safari extension
+  '.SAVER'    : "📺",   # screen saver
+  '.WORKFLOW' : "⚙", # automator workflow
+  '.SERVICE'  : "⚙", # system service
+
+  '.URL'        : "🌏",
+  '.WEBLOC'     : "🌏",
+  '.WEBARCHIVE' : "🌍",
+  '.PDF'        : "📝",
+
+  '.HQX'  : "📦",
+  '.PKG'  : "📦",
+  '.TBZ2' : "📦",
+  '.ZIP'  : "📦",
+  '.GZ'   : "📦",
+  '.TAR'   : "📦",
+
+    # binaries
+  '.HI'  : "",
+  '.O'  : "",
+  '.CLASS'  : "☕",
+
+   # defaults
+  '.PACKAGE' : "📦"
+}
+
+
+class File:
+  """
+
+  """
+  def __init__(self, path):
+    """
+
+    """
+
+    # determine if the path pointed to is a symlink or not
+    target = path
+    if os.path.islink(path):
+      target = os.path.join(os.path.dirname(path), os.readlink(path))
+      if not os.path.exists(target):
+        target = os.path.abspath(path)
+
+    self.path = os.path.abspath(path)                         # absolute path
+    self.exists = os.path.exists(target)                      # True if the path resolves to an entry on disk
+
+    # check to see if file is a directory
+#    name, extension = os.path.splitext(self.path)
+#    extension = extension.upper()
+#and not extension.upper() in PACKAGES
+
+    self.dir = self.exists and os.path.isdir(target) or False # True if the file is a directory
+    self.contents = []                                        # array containing the items in this directory
+    self.size = ''                                            #
+    self.length = 0                                           #
+    self.unit = ''                                            #
+    self.owner = ''                                           # owner name (ex: 'root')
+    self.group = ''                                           # group name for the (ex: 'admin')
+    self.perms = '   '                                        # 3-digit string containing the permissions for the file (ex: '755')
+    self.modified = 0                                         # UNIX stimestamp
+
+    if self.exists:
+
+      self.modified = os.path.getmtime(target)
+      stat = os.stat(self.path)
+
+      try:
+        self.owner = pwd.getpwuid(stat.st_uid).pw_name
+      except KeyError:
+        self.owner = str(stat.st_uid)
+      try:
+        self.group = grp.getgrgid(stat.st_gid)[0]
+      except KeyError:
+        self.group = str(stat.st_gid)
+
+      self.perms = oct(stat[0])[-3:]
+      if not self.perms:
+        self.perms = '   '
+
+      if self.dir:
+        try:
+          list = os.listdir(path)
+          for i in list:
+            if i != '.' and i != '..':
+              self.contents.append(i)
+        except OSError:
+          pass
+
+        self.length = len(self.contents)
+        self.size, self.unit = str(self.length), 'item' + (len(self.contents) > 1 and 's' or '')
+
+      else:
+        self.length = os.path.getsize(target)
+        self.size, self.unit = self.__size()
+        if self.length == 0:
+          self.length = 0.00001
+
+  def __str__(self):
+    return self.path
+
+  def name(self):
+    return unicode(os.path.basename(self.path) + (os.path.islink(self.path) and ' → ' + os.readlink(self.path) or ''), 'utf_8')
+
+  def __size(self):
+    """
+    Human friendly file size
+    """
+    num = self.length
+    unit_list = zip(['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'], [0, 0, 1, 2, 2, 2])
+
+    if num == 1:
+      return '1', 'byte'
+    elif num == 0:
+      return '0', 'bytes'
+    else:
+      exponent = min(int(math.log(num, 1024)), len(unit_list) - 1)
+      quotient = float(num) / 1024**exponent
+      unit, num_decimals = unit_list[exponent]
+      format_string = '{0:.%sf}' % (num_decimals)
+      return format_string.format(quotient), unit
+
+
+  def __len__(self):
+    return len(self.contents)
+
+  def emoji(self):
+    """
+    Retrieve the emoji icon for a given absolute (full) pathname
+    """
+    name, extension = os.path.splitext(self.path)
+    extension = extension.upper()
+
+    if extension in PACKAGES:
+      if map.has_key(extension):
+        return map[extension]
+      else:
+        return map['.PACKAGE']
+
+    if os.path.islink(self.path):
+      return map['LINK']
+
+    elif self.path.rstrip('/') == os.getenv('HOME'):
+      return map['HOME']
+
+    elif self.path == '/':
+      return map['ROOT']
+
+    elif os.path.ismount(self.path):
+      return map['MOUNT']
+
+    elif os.path.isdir(self.path):
+      return len(self.contents) > 0 and map['FOLDER'] or map['FOLDER_EMPTY']
+
+    return map.has_key(extension) and map[extension] or map['DEFAULT']
+
+def emoji(path):
+  return File(path).emoji()
+
+if __name__ == '__main__':
+
+  try:
+    opts, args = getopt.getopt(sys.argv[1:], 'acdefgklmrstv', ['all', 'case', 'dirs', 'help', 'files', 'url', 'long', 'size', 'version', 'prefix=', 'glyph'])
+  except getopt.GetoptError:
+    raise SystemExit('🚫  Incorrect usage')
+
+  if not args:
+    args = []
+
+  OPTS = {
+    'case' :     False,  # case-sensitive sorting
+    'hidden' :   False,  # include hidden files
+    'long' :     False,  # long output
+    'dirs' :     False,  # only list directories
+    'files' :    False,  # only list files
+    'glyph' :    False,  # only display emoji for files
+    'reverse' :  False,  # reverse sort order
+    'merge' :    False,  # merge files and directories into one
+    'size' :     False,  # sort by size
+    'sparse' :   True,   # sparse output (prevent dupes of things like owner, group, etc)
+    'modified' : False,  # sort by date modified
+    'text' :     False,  # text-only output
+    'prefix' : ''        # added at the beginning of each line of output
+  }
+
+  for opt, arg in opts:
+    if opt == '--help':
+      sys.stdout.write("""🏥  lsemoji [-acdefklmrstv] [path ...]
+🌏  https://davidfmiller.github.io/lsemoji
+
+  -a : include hidden files
+  -c : case-sensitive sorting
+  -d : only list directories
+  -e : exhaustive output
+  -f : only list files
+  -k : separate files and directories
+  -l : long output
+  -m : sort by date modified
+  -r : reverse sort order
+  -s : sort by size
+""")
+      sys.exit()
+
+    if opt == '-a' or opt == '--all':
+      OPTS['hidden'] = True
+    elif opt == '-c' or opt == '--case':
+      OPTS['case'] = True
+    elif opt == '-d' or opt == '--dirs':
+      OPTS['dirs'] = True
+    elif opt == '-e':
+      OPTS['sparse'] = False
+      OPTS['long'] = True
+    elif opt == '-f' or opt == '--files':
+      OPTS['files'] = True
+    elif opt == '-k':
+      OPTS['merge'] = True
+    elif opt == '-l' or opt == '--long':
+      OPTS['long'] = True
+    elif opt == '-m':
+      OPTS['modified'] = True
+    elif opt == '-g' or opt == '--glyph':
+      OPTS['glyph'] = True
+    elif opt == '--prefix':
+      OPTS['prefix'] = arg or ''
+    elif opt == '-r':
+      OPTS['reverse'] = True
+    elif opt == '-s' or opt == '--size':
+      OPTS['size'] = True
+    elif opt == '-v'  or opt == '--version':
+      sys.stdout.write("📂  v" + VERSION + "\n");
+      sys.exit();
+
+    elif opt == '--url':
+      out,err = subprocess.Popen(["open", "https://davidfmiller.github.io/lsemoji"], stdout=subprocess.PIPE).communicate()
+      sys.exit()
+
+
+  if len(args) == 0:
+    args.append('')
+
+  for arg in args:
+
+    dirs = []
+    files = []
+
+    try:
+      path = os.path.abspath(os.path.join(os.getcwd(), arg))
+    except OSError:
+      raise SystemExit('🚫  Unable to determine current directory')
+
+    if not os.path.exists(path):
+      sys.stderr.write("🚫  " + arg + " doesn't exist\n")
+      continue
+
+    if OPTS['glyph']:
+      f = File(path)
+      print OPTS['prefix'] + f.emoji()
+
+    else:
+
+      if not os.path.isdir(path):
+        if os.path.exists(path):
+          files.append(File(path))
+
+      else:
+        for line in os.listdir(path):
+          line = line.rstrip()
+          if line[0] == '.' and not OPTS['hidden']:
+            continue
+
+          name, extension = os.path.splitext(line)
+          f = File(os.path.abspath(os.path.join(path, line)))
+
+          if f.dir and not OPTS['merge'] and not extension.upper() in PACKAGES:
+            dirs.append(f)
+          else:
+            files.append(f)
+
+    prefix = OPTS['prefix']
+    t = File(path)
+    if len(args) > 1  and (files or dirs) and t.exists and t.dir:
+      sys.stdout.write ("  " + path + "\n")
+      prefix = prefix + '   '
+
+    if OPTS['size']:
+      sorter = lambda f: f.length
+    elif OPTS['modified']:
+      sorter = lambda f: f.modified
+    else:
+      if not OPTS['case']:
+        sorter = lambda f: str(f).lower()
+      else:
+        sorter = lambda f: str(f)
+
+    dirs = sorted(dirs, key=sorter, reverse=OPTS['reverse'])
+    files = sorted(files, key=sorter, reverse=OPTS['reverse'])
+
+    longest = 0
+    biggestSize = '1'
+    longestUnit = 0
+    longestOwner = ''
+
+    if OPTS['dirs']:
+      files = []
+    elif OPTS['files']:
+      dirs = []
+
+    for i in dirs + files:
+      l = len(i.name())
+      if l > longest:
+        longest = l
+
+      if len(i.size) > len(str(biggestSize)):
+        biggestSize = i.size
+
+      if len(i.unit) > longestUnit:
+        longestUnit = len(i.unit)
+
+      if len(i.owner) > len(longestOwner):
+        longestOwner = i.owner
+
+    i = 0
+
+    prevOwner = prevGroup = prevMonth = prevYear = prevDay = ''
+    for file in dirs + files:
+
+      contents = ''
+
+      modified = datetime.fromtimestamp(file.modified)
+
+      year = modified.strftime('%Y')
+      month = modified.strftime('%b')
+      day = modified.strftime('%d')
+
+      if OPTS['long']:
+        if file.dir:
+          contents = ((longest - len(file.name().encode('utf-8'))) * ' ') + (int(file.size) > 0 and (((len(biggestSize) - len(file.size)) * ' ') + str(file.size) + ' ' + file.unit  or "") or "")
+
+          if len(file.contents) == 0:
+            contents = ' ' * (len(contents) + len(biggestSize) + len(file.unit)) + ' '
+
+        elif not file.dir:
+          contents = ((longest - len(file.name())) * ' ') + ((len(biggestSize) - len(file.size)) * ' ') + str(file.size) + ' ' + file.unit
+
+        contents = contents + ((longestUnit - len(file.unit)) * ' ') + '  ' + file.perms + '  ' + ((month != prevMonth or day != prevDay)and month or '   ') + ' ' + ((day != prevDay or month != prevMonth or year != prevYear) and day or '  ')  + ' ' + ((year != prevYear or month != prevMonth or day != prevDay) and year or '    ') + ' ' + str(modified.strftime('%H:%M')) + '  '
+        contents += (file.owner != prevOwner and (file.owner + ((len(longestOwner) - len(file.owner)) * ' ')) or (len(longestOwner) * ' '))  + '  ' + (file.group != prevGroup and file.group or '')
+
+      if OPTS['sparse']:
+        prevOwner = file.owner
+        prevGroup = file.group
+        prevYear = year
+        prevMonth = month
+        prevDay = day
+
+      sys.stdout.write(prefix + file.emoji() + '  ' + file.name().encode('utf_8') + '  ' + contents + "\n")
+      i += 1

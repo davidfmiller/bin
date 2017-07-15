@@ -142,10 +142,6 @@ if __name__ == '__main__':
 
               contents = "".join(f.readlines())
 
-              # force 'plain-text' treatment of the following extensions
-    #          if extension in ['.MD', '.MARKDOWN', '.TXT']:
-    #            sys.stdout.write(contents)
-
               # force json lexer since pygments doesn't recognize .json extension
               if extension == '.JSON':
                 _catf(contents, pygments.lexers.JsonLexer(), debug)
