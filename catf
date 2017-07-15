@@ -110,6 +110,9 @@ if __name__ == '__main__':
 
   else:
 
+    if len(args) == 0:
+      args = [os.getcwd()]
+
     for arg in args:
 
       try:
@@ -125,7 +128,15 @@ if __name__ == '__main__':
         extension = extension.upper()
 
         if os.path.isdir(path):
-          sys.stderr.write("🚫  File '" + arg + "' is a directory\n")
+
+          try:
+            out,err = subprocess.Popen([CATFDIR + '/lsemoji', path], stdout=subprocess.PIPE).communicate()
+            sys.stdout.write(out)
+#            sys.stderr.write(err)
+          except Exception as e:
+#            sys.stderr.write(e.strerror)
+            sys.stderr.write("🚫  Unable to read " + path + "\n")
+
         else:
 
           with open(path) as f:
@@ -136,7 +147,7 @@ if __name__ == '__main__':
                 out,err = subprocess.Popen([CATFDIR + '/text-clipping', path], stdout=subprocess.PIPE).communicate()
                 sys.stdout.write(out)
               except:
-                sys.stderr.write("🚫  Unable to read " + path + "\n")
+                sys.stderr.write("🚫  Unable to read " + path + " as text clipping\n")
 
             else:
 
