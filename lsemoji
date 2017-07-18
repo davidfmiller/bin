@@ -199,6 +199,7 @@ map = {
   '.PKPASS' : '🎟', # apple wallet 
   '.RTF'   : "📝", # rich text documents
   '.RTFD'  : "📝", # rich text document package
+  '.SO'    : "📚", # library
   '.STORYBOARD'  : "📓", # xcode storyboard interface file
   '.TCX'   : "📍", # map file
   '.TSV'   : "📊", # tab-separated data
