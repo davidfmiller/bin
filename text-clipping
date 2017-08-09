@@ -28,16 +28,20 @@ if ARGUMENTS.count < 1 {
 
 for path in ARGUMENTS {
 
-  let fileURL = URL(string: path)!
+  if let fileURL = URL(string: path) {
 
-  if fileURL.pathExtension != "textClipping" {
-    stderr.write("🚫  \(path) is not a text clipping\n".data(using: String.Encoding.utf8)!)
-    continue
-  }
+    if fileURL.pathExtension != "textClipping" {
+      stderr.write("🚫  \(path) is not a text clipping\n".data(using: String.Encoding.utf8)!)
+      continue
+    }
 
-  let config : NSDictionary? = NSDictionary(contentsOfFile:path)
-  let dict : NSDictionary? = (config!["UTI-Data"] as! NSDictionary)
-  if dict != nil {
-    print("\(dict!["public.utf8-plain-text"]!)")
+    let config : NSDictionary? = NSDictionary(contentsOfFile:path)
+    let dict : NSDictionary? = (config!["UTI-Data"] as! NSDictionary)
+    if dict != nil {
+      print("\(dict!["public.utf8-plain-text"]!)")
+    }
+  
+  } else {
+    stderr.write("🚫  \(path) not found\n".data(using: String.Encoding.utf8)!)
   }
 }
