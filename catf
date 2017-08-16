@@ -58,7 +58,7 @@ if __name__ == '__main__':
   VERSION = "0.0.2"
 
   try:
-    opts, args = getopt.getopt(sys.argv[1:], 'hudvl:')
+    opts, args = getopt.getopt(sys.argv[1:], 'hudvl:', ['help', 'version'])
   except getopt.GetoptError:
     raise SystemExit("🚫  Incorrect usage")
 
@@ -67,27 +67,20 @@ if __name__ == '__main__':
 
   for opt, arg in opts:
 
-    if opt == '-d':
-      debug = True
+#    if opt == '-d':
+#      debug = True
 
 #    elif opt == '-n' or opt == '--numbers':
 #      sys.stderr.write("Line #s coming soon\n");
 
-    elif opt == '-v':
+    if opt == '-v' or opt == '--version':
       sys.stdout.write("🐱  v" + VERSION + "\n")
       sys.exit()
 
-    elif opt == '-h':
-      sys.stdout.write("""🐱  catf [filenames ...]
+    elif opt == '-h' or opt == '--help':
+      sys.stdout.write("""🐱  catf [-l json|html|xml|md] [filenames ...]
 🌏  https://davidfmiller.github.io/bin\n""")
       sys.exit();
-
-    elif opt == '-u' or opt == '--url':
-      try:
-        out,err = subprocess.Popen(['open', 'https://davidfmiller.github.io/bin'], stdout=subprocess.PIPE).communicate()
-        sys.exit()
-      except OSError:
-        raise SystemExit('🌏  https://davidfmiller.github.io/catf')
 
     elif opt == '-l':
       if arg == 'json':
