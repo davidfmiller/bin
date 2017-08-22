@@ -208,10 +208,10 @@ map = {
   '.EOT'   : "🖊", # ?? font
   '.WOFF'  : "🖊", # ?? font
   '.WOFF2' : "🖊", # ?? font
-
   '.XLS'   : "📊", # excel spreadsheet
   '.XLSX'  : "📊", # excel spreadsheet
   '.XPS'   : "📝", # 
+  '.ZWO'   : "🚴", #  zwift workout
 
   '.WAR'   : "☕", # java web archive
   '.PDF'   : "📝", #
