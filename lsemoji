@@ -47,6 +47,7 @@ PACKAGES = [
   '.SAVER',                # screen saver
   '.SKETCHPLUGIN',         # sketch plugin
   '.SCPTD',                # applescript 
+  '.TRACE',                # xcode/instruments trace
   '.XCODEPROJ',            # xcode project
   '.XCTEST',               # xcode test bundle
   '.XCARCHIVE',            # xcode app build archive
