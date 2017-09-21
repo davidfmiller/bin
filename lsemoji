@@ -172,6 +172,7 @@ map = {
 
   # misc
   '.ACO'   : "🎨", # adobe palette
+  '.AIR'   : "⚙", # adobe air app
   '.ASE'   : "🎨", # adobe palette
   '.APP'   : "⚙", # application
   '.APPEX' : "⚙", # application extension
