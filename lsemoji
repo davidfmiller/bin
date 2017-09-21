@@ -197,6 +197,7 @@ map = {
   '.OTF'    : "🖋", # opentype font
   '.PEM'    : "🔑", # SSL cert
   '.PKPASS' : '🎟', # apple wallet 
+  '.P12'    : "🔑", # cert
   '.RTF'   : "📝", # rich text documents
   '.RTFD'  : "📝", # rich text document package
   '.STORYBOARD'  : "📓", # xcode storyboard interface file
