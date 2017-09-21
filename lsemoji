@@ -11,6 +11,7 @@ http://davidfmiller.github.io/lsemoji/
 # todo:
 # ignore hidden files
 
+import unicodedata
 import sys
 import os
 import math
@@ -46,6 +47,7 @@ PACKAGES = [
   '.SAVER',                # screen saver
   '.SKETCHPLUGIN',         # sketch plugin
   '.SCPTD',                # applescript 
+  '.TRACE',                # xcode/instruments trace
   '.XCODEPROJ',            # xcode project
   '.XCTEST',               # xcode test bundle
   '.XCARCHIVE',            # xcode app build archive
@@ -200,6 +202,7 @@ map = {
   '.P12'    : "🔑", # cert
   '.RTF'   : "📝", # rich text documents
   '.RTFD'  : "📝", # rich text document package
+  '.SO'    : "📚", # library
   '.STORYBOARD'  : "📓", # xcode storyboard interface file
   '.TCX'   : "📍", # map file
   '.TSV'   : "📊", # tab-separated data
@@ -207,10 +210,10 @@ map = {
   '.EOT'   : "🖊", # ?? font
   '.WOFF'  : "🖊", # ?? font
   '.WOFF2' : "🖊", # ?? font
-
   '.XLS'   : "📊", # excel spreadsheet
   '.XLSX'  : "📊", # excel spreadsheet
   '.XPS'   : "📝", # 
+  '.ZWO'   : "🚴", #  zwift workout
 
   '.WAR'   : "☕", # java web archive
   '.PDF'   : "📝", #
@@ -523,7 +526,7 @@ if __name__ == '__main__':
       dirs = []
 
     for i in dirs + files:
-      l = len(i.name())
+      l = len(unicodedata.normalize('NFC', i.name()))
       if l > longest:
         longest = l
 
@@ -557,7 +560,7 @@ if __name__ == '__main__':
             contents = ' ' * (len(contents) + len(biggestSize) + len(file.unit)) + ' '
 
         elif not file.dir:
-          contents = ((longest - len(file.name())) * ' ') + ((len(biggestSize) - len(file.size)) * ' ') + str(file.size) + ' ' + file.unit
+          contents = ((longest - len(file.name().encode('utf-8'))) * ' ') + ((len(biggestSize) - len(file.size)) * ' ') + str(file.size) + ' ' + file.unit
 
         contents = contents + ((longestUnit - len(file.unit)) * ' ') + '  ' + file.perms + '  ' + ((month != prevMonth or day != prevDay)and month or '   ') + ' ' + ((day != prevDay or month != prevMonth or year != prevYear) and day or '  ')  + ' ' + ((year != prevYear or month != prevMonth or day != prevDay) and year or '    ') + ' ' + str(modified.strftime('%H:%M')) + '  '
         contents += (file.owner != prevOwner and (file.owner + ((len(longestOwner) - len(file.owner)) * ' ')) or (len(longestOwner) * ' '))  + '  ' + (file.group != prevGroup and file.group or '')
