@@ -5,7 +5,20 @@ import Cocoa
 
 let arguments = Array(CommandLine.arguments[1 ..< CommandLine.arguments.count])
 
-for arg in arguments
+if arguments.count > 0
 {
-    print(CFXMLCreateStringByUnescapingEntities(nil, arg as CFString, nil) as String)
+    for arg in arguments
+    {
+        print(CFXMLCreateStringByUnescapingEntities(nil, arg as CFString, nil) as String)
+    }
 }
+else
+{
+   let stdin = FileHandle.standardInput
+   let data: Data = stdin.readDataToEndOfFile()
+   
+   let str = NSString(data: data, encoding: String.Encoding.utf8.rawValue)!
+   
+   print(CFXMLCreateStringByUnescapingEntities(nil, str as CFString, nil) as String)
+}
+
