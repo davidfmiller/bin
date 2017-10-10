@@ -206,6 +206,7 @@ map = {
   '.SO'    : "📚", # library
   '.STORYBOARD'  : "📓", # xcode storyboard interface file
   '.TCX'   : "📍", # map file
+  '.TERMINAL' : "🎨", # terminal profile
   '.TSV'   : "📊", # tab-separated data
   '.TTF'   : "🖊", # truetype font
   '.EOT'   : "🖊", # ?? font
