@@ -194,6 +194,7 @@ map = {
   '.LRCAT' : "🗄",  # lightroom catalog
   '.LRCAT-JOURNAL' : "🗄",   # lightroom catalog
   '.MOBILEPROVISION' : "🔑", # mobile provision
+  '.PROVISIONPROFILE' : "🔑", # xcode profile
   '.MSG'      : "📫", # windows email
   '.NUMBERS' : "📊", # numbers spreadsheet
   '.OOUTLINE' : "✅", # omnioutliner
