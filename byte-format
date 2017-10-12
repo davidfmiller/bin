@@ -8,7 +8,7 @@ let arguments = Array(CommandLine.arguments[1 ..< CommandLine.arguments.count])
 
 if arguments.count != 1
 {
-    stderr.write("🚫  Usage: byte-format [bytes]\n".data(using: String.Encoding.utf8)!)
+    stderr.write("🚫  Usage: byte-format [number]\n".data(using: String.Encoding.utf8)!)
     exit(1)
 }
 
