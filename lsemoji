@@ -168,6 +168,7 @@ map = {
   '.SWIFT'    : "📄", # swift
   '.TERMINAL' : "📄", # saved terminal.app window setting
   '.VCF'      : "👤", # vcard
+  '.VTT'      : "💬", # web caption file
 
 
   # misc
