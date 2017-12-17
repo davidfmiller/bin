@@ -1,3 +1,0 @@
-#!/bin/sh
-
-php -r 'date_default_timezone_set("America/Edmonton"); echo date("r", time()) . "\n";'

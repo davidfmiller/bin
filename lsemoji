@@ -168,10 +168,12 @@ map = {
   '.SWIFT'    : "📄", # swift
   '.TERMINAL' : "📄", # saved terminal.app window setting
   '.VCF'      : "👤", # vcard
+  '.VTT'      : "💬", # web caption file
 
 
   # misc
   '.ACO'   : "🎨", # adobe palette
+  '.AIR'   : "⚙", # adobe air app
   '.ASE'   : "🎨", # adobe palette
   '.APP'   : "⚙", # application
   '.APPEX' : "⚙", # application extension
@@ -193,6 +195,7 @@ map = {
   '.LRCAT' : "🗄",  # lightroom catalog
   '.LRCAT-JOURNAL' : "🗄",   # lightroom catalog
   '.MOBILEPROVISION' : "🔑", # mobile provision
+  '.PROVISIONPROFILE' : "🔑", # xcode profile
   '.MSG'      : "📫", # windows email
   '.NUMBERS' : "📊", # numbers spreadsheet
   '.OOUTLINE' : "✅", # omnioutliner
@@ -205,6 +208,7 @@ map = {
   '.SO'    : "📚", # library
   '.STORYBOARD'  : "📓", # xcode storyboard interface file
   '.TCX'   : "📍", # map file
+  '.TERMINAL' : "🎨", # terminal profile
   '.TSV'   : "📊", # tab-separated data
   '.TTF'   : "🖊", # truetype font
   '.EOT'   : "🖊", # ?? font

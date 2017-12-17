@@ -1,0 +1,19 @@
+#!/usr/bin/env swift
+
+import Foundation
+import Cocoa
+
+let stderr = FileHandle.standardError
+let arguments = Array(CommandLine.arguments[1 ..< CommandLine.arguments.count])
+
+if arguments.count == 0
+{
+    stderr.write("🚫  Usage: byte-format [number]\n".data(using: String.Encoding.utf8)!)
+    exit(1)
+}
+
+for arg in arguments
+{
+    let intValue : Int64 = Int64(arg)!
+    print(ByteCountFormatter.string(fromByteCount: intValue, countStyle: .file))
+}

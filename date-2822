@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# http://www.faqs.org/rfcs/rfc2822.html
+
+php -r 'date_default_timezone_set("America/Vancouver"); echo date("r", time()) . "\n";'

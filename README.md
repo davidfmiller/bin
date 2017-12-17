@@ -2,6 +2,13 @@
 
 Random shell scripts, primarily for macOS
 
+## byte-format
+
+Formats a byte count into a human-friendly string:
+
+	> byte-format [number]
+
+
 ## catf
 
 Echo the contents of a file with [Pygments](http://pygments.org)-powered syntax highlighting.
