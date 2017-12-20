@@ -1,9 +1,11 @@
 #!/bin/sh
 
-# search 
-
-# google "http://www.google.com/search?q=$1"
+# Open a browser window on your favorite search engine
 
 ARGS="$@"
+
+# google "http://www.google.com/search?q=$ARGS"
+# bing   "https://www.bing.com/search?q=$ARGS"
+# yahoo  "https://search.yahoo.com/search?p=$ARGS"
 
 open "https://duckduckgo.com?q=$ARGS"
