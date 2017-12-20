@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# search 
+
+# google "http://www.google.com/search?q=$1"
+
+ARGS="$@"
+
+open "https://duckduckgo.com?q=$ARGS"
