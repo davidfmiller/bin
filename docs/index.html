@@ -7,120 +7,24 @@
   <link rel="stylesheet" type="text/css" href="https://davidfmiller.github.io/man/man.css">
 </head>
 <body>
+  <div id="man">
 
-    <h1><i>🐱</i> <code>catf</code></h1>
+    <h1><i></i> <code>bin</code></h1>
 
-    <p>&hellip; is a syntax-aware version of <code><a href="https://en.wikipedia.org/wiki/Cat_(Unix)" title="cat">cat</a></code>.</p>
+    <h2>guetzler</h2>
+    <p>A simple shell script to batch process JPGs through <a href="https://github.com/google/guetzli">guetzli</a>.
+    <pre>⚡ guetzler [file] [directory] [...]</pre>
 
-    <h2 id="usage"><a href="#usage">#</a>Usage</h2>
+    <p><a href="https://github.com/davidfmiller/bin" title="Clone on GitHub">Clone it</a>.</p>
 
-    <p>
-    Install <a href="http://pygments.org/" title="Python syntax highlighter">Pygments</a>:
-    </p>
+  </div>
 
-    <pre><i>⚡</i> pip install Pygments</pre>
-
-    <p>Place <code>catf</code> in a location included in your path and make sure it's executable, <abbr title="example">ex</abbr>:</p>
-
-    <pre><i>⚡</i> curl "<a href="https://raw.githubusercontent.com/davidfmiller/catf/master/catf">https://raw.githubusercontent.com/davidfmiller/catf/master/catf</a> &gt; ~/bin/catf
-<i>⚡</i> chmod 700 ~/bin/catf</pre>
-
-    <p><code>catf</code> reads from <code>stdio</code> or filenames passed as arguments, <abbr title="example">ex</abbr>:
-
-    <pre id="ex"><i>⚡</i> curl "<a href="http://readmeansrun.com/code/readmeansafari/test/json.php">http://readmeansrun.com/code/readmeansafari/test/json.php</a>" | catf
-<span class="p">{</span>
-    <span class="s2">&quot;array&quot;</span> <span class="o">:</span> <span class="p">[</span> <span class="p">],</span>
-    <span class="s2">&quot;bool&quot;</span> <span class="o">:</span> <span class="kc">true</span> <span class="p">,</span>
-    <span class="s2">&quot;link&quot;</span> <span class="o">:</span> <span class="s2">&quot;http://readmeansrun.com&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;object&quot;</span> <span class="o">:</span> <span class="p">{</span>
-        <span class="s2">&quot;string&quot;</span> <span class="o">:</span> <span class="s2">&quot;Hello world&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;number&quot;</span> <span class="o">:</span> <span class="mi">42</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<i>⚡</i> catf ~/Documents/git/apples/note
-<span class="c">#!/usr/bin/python</span>
-<span class="c"># -*- coding: utf-8 -*-</span>
-
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Create a new note from the command-line</span>
-<span class="sd">&quot;&quot;&quot;</span>
-
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">getopt</span>
-<span class="kn">import</span> <span class="nn">tempfile</span>
-<span class="kn">import</span> <span class="nn">subprocess</span>
-
-<span class="k">def</span> <span class="nf">esc</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Escapes a string&#39;s characters</span>
-
-<span class="sd">  @param arg (string)</span>
-<span class="sd">  @return string</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">buf</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">arg</span><span class="p">:</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="s">&#39;</span><span class="se">\\</span><span class="s">&#39;</span><span class="p">):</span>
-      <span class="n">buf</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\\\\</span><span class="s">&#39;</span>
-    <span class="k">elif</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">):</span>
-      <span class="n">buf</span> <span class="o">+=</span> <span class="s">&#39;&lt;br/&gt;&#39;</span>
-    <span class="k">elif</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="s">&#39;&quot;&#39;</span><span class="p">):</span>
-      <span class="n">buf</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\\</span><span class="s">&quot;&#39;</span>
-    <span class="k">elif</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="s">&#39; &#39;</span><span class="p">):</span>
-      <span class="n">buf</span> <span class="o">+=</span> <span class="s">&#39;&amp;nbsp;&#39;</span>
-    <span class="k">elif</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="s">&#39;&gt;&#39;</span><span class="p">):</span>
-      <span class="n">buf</span> <span class="o">+=</span> <span class="s">&#39;&amp;gt;&#39;</span>
-    <span class="k">elif</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="s">&#39;&lt;&#39;</span><span class="p">):</span>
-      <span class="n">buf</span> <span class="o">+=</span> <span class="s">&#39;&amp;lt;&#39;</span>
-    <span class="k">else</span><span class="p">:</span>
-      <span class="n">buf</span> <span class="o">+=</span> <span class="n">i</span>
-
-  <span class="k">return</span> <span class="n">buf</span>
-  <span class="c">...</span><a href="#ex" class="hash">#</a>
-</pre>
-
-  <h2 id="options"><a href="#options">#</a>Options</h2>
-  <dl>
-    <dt><code>-d</code></dt>
-    <dd>display (to <code>stderr</code>) which lexer is being used</dd>
-
-<!--
-    <dt><code>-n</code></dt>
-    <dt><code>-numbers</code></dt>
-    <dd>display line numbers</dd>
--->
-
-    <dt><code>-v</code></dt>
-    <dd>display version info</dd>
-
-    <dt><code>-h</code></dt>
-    <dd>display help</dd>
-
-    <dt><code>-u</code></dt>
-    <dd>open this page (OS X only)</dd>
-
-    <dt><code>-l {arg}</code></dt>
-    <dd>Force a specific lexer to be used, <code>{arg}</code> can be one of:
-      <ul>
-        <li>json</li>
-        <li>html</li>
-        <li>xml</li>
-      </ul>
-    </dd>
-
-
-  </dl>
-
-  <h2 id="history"><a href="#history">#</a>Version History</h2>
-  <dl>
-    <dt><code>v0.0.1</code> - ???</dt>
-    <dd>Initial release</dd>
-  </dl>
-
-  <h2 id="contribute"><a href="#contribute">#</a>Contribute</h2>
-
-  <p><a href="https://github.com/davidfmiller/catf" title="Clone on GitHub">Clone it</a>.</p>
+  <script src="https://davidfmiller.github.io/man/man.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function(event) {
+    window.Man({pre: true});
+  });
+  </script>
 
 </body>
 </html>
