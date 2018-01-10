@@ -1,13 +1,11 @@
 #!/bin/sh
 
-
-#
-#
-#
-
+# Export compressed copy of JPEG(s) using guetzli
+# https://github.com/google/guetzli
 
 cmd=`which guetzli`
 
+# ensure guetzli is installed
 if [[ $cmd == "" ]]
 then
    >&2 echo "🚫  Install guetzli: https://github.com/google/guetzli"
@@ -15,15 +13,18 @@ then
 fi
 
 
+# if no arguments specified...
 if [[ $1 == "" ]]
 then
-   >&2 echo "🚫  No path(s) specified"
+   >&2 echo "🚫  Usage: guetzler [path(s)]"
    exit 1
 fi
 
+# loop through all arguments
 for arg in $@;
 do
 
+  # if a jpeg, export as `guetzler-{filename}.jpg`
   if [ -f "$arg" ];
   then
     f=`basename $arg`
@@ -32,6 +33,7 @@ do
     echo $arg → $dir/guetzli-$f
     `$cmd $arg $dir/guetzli-$f`
 
+  # if a directory, create sub-directory `guetzli` and export images there
   elif [ -d "$arg" ];
   then
     dir=`basename $1`
@@ -42,11 +44,8 @@ do
 
       outdir="`dirname $i`/guetzli"
 
-#      echo "out $outdir"
-
       if [ ! -d "$outdir" ];
       then
-#        echo "making $outdir"
         mkdir $outdir
       fi
 
