@@ -17,23 +17,45 @@ fi
 
 if [[ $1 == "" ]]
 then
-   >&2 echo "🚫  No directory specified"
+   >&2 echo "🚫  No path(s) specified"
    exit 1
 fi
 
-
-if [ ! -d "$1" ]
-then
-   >&2 echo "🚫  Invalid directory \"$1\" specified"
-   exit 1
-fi
-
-dir=`basename $1`
-
-format=*.jpg
-for i in $dir/$format;
+for arg in $@;
 do
-  f=`basename $i`;
-  echo $i → $dir/guetzli-$f;
-  `$cmd $i $dir/guetzli-$f`
+
+  if [ -f "$arg" ];
+  then
+    f=`basename $arg`
+    dir=`dirname $arg`
+
+    echo $arg → $dir/guetzli-$f
+    `$cmd $arg $dir/guetzli-$f`
+
+  elif [ -d "$arg" ];
+  then
+    dir=`basename $1`
+
+    format=*.jpg
+    for i in $dir/$format;
+    do
+
+      outdir="`dirname $i`/guetzli"
+
+#      echo "out $outdir"
+
+      if [ ! -d "$outdir" ];
+      then
+#        echo "making $outdir"
+        mkdir $outdir
+      fi
+
+      f=`basename $i`;
+      echo $i → $outdir/$f;
+      `$cmd $i $outdir/$f`
+    done
+  else
+    >&2 echo "🚫  Invalid path \"$1\""
+  fi
+
 done
