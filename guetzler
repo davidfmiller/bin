@@ -1,0 +1,39 @@
+#!/bin/sh
+
+
+#
+#
+#
+
+
+cmd=`which guetzli`
+
+if [[ $cmd == "" ]]
+then
+   >&2 echo "🚫  Install guetzli: https://github.com/google/guetzli"
+   exit 1
+fi
+
+
+if [[ $1 == "" ]]
+then
+   >&2 echo "🚫  No directory specified"
+   exit 1
+fi
+
+
+if [ ! -d "$1" ]
+then
+   >&2 echo "🚫  Invalid directory \"$1\" specified"
+   exit 1
+fi
+
+dir=`basename $1`
+
+format=*.jpg
+for i in $dir/$format;
+do
+  f=`basename $i`;
+  echo $i → $dir/guetzli-$f;
+  `$cmd $i $dir/guetzli-$f`
+done
