@@ -27,7 +27,6 @@ then
    exit 1
 fi
 
-
 # if no arguments specified...
 if [[ $1 == "" ]]
 then
@@ -50,18 +49,18 @@ do
   # if a directory, create sub-directory `guetzli` and export images there
   elif [ -d "$arg" ];
   then
-#    format=*.jpe?g
     for i in $arg/*.jpg $arg/*.jpeg;
     do
-       outdir="$arg/guetzli"
 
-       if [ ! -d "$outdir" ];
-       then
-         mkdir $outdir
-       fi
+      # ensure output folder exists
+      outdir="$arg/guetzli"
+      if [ ! -d "$outdir" ];
+      then
+        mkdir $outdir
+      fi
 
-       f=`basename "$i"`;
-       guetzlify "$i" "$outdir/$f"
+      f=`basename "$i"`;
+      guetzlify "$i" "$outdir/$f"
 
     done
   else
