@@ -14,6 +14,9 @@ if arguments.count == 0
 
 for arg in arguments
 {
-    let intValue : Int64 = Int64(arg)!
+    guard let intValue : Int64 = Int64(arg) else {
+      stderr.write("🚫  Invalid argument \(arg)\n".data(using: String.Encoding.utf8)!)
+      continue
+    }
     print(ByteCountFormatter.string(fromByteCount: intValue, countStyle: .file))
 }
