@@ -1,0 +1,105 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+"""
+gist
+https://davidfmiller.github.io/bin/
+
+Retrieve syntax-aware code listing from a GitHub URL
+
+ex: `gist https://gist.github.com/davidfmiller/b29d44c38a49e0b551554a36ae4b7918`
+ex: `gist https://github.com/davidfmiller/man/blob/master/package.json`
+"""
+
+import sys
+import urllib2
+import getopt
+import os
+from HTMLParser import HTMLParser
+
+
+errs = {
+  'usage': "🚫  Usage: github-source [url]\n",
+  'invalid' : "🚫  Invalid url\n"
+}
+
+
+class GitHubParser(HTMLParser):
+
+    def __init__(self):
+      HTMLParser.__init__(self)
+      self.state = 'null'
+      self.buffer = ''
+      self.markup = ''
+
+    def handle_starttag(self, tag, attrs):
+
+      if tag == 'table':
+        for key,value in attrs:
+          if key == 'class' and 'highlight' in value.split(' '):
+            self.state = 'table'
+      elif tag == 'td':
+        self.buffer = ''
+        for key,value in attrs:
+          if key == 'class' and 'blob-code' in value.split(' '):
+            self.state = 'td'
+      elif self.state == 'td':
+        for key,value in attrs:
+          if key == 'class':
+            self.buffer += '<' + tag + ' class="' + value + '">'
+
+    def handle_endtag(self, tag):
+
+      if tag == 'body':
+        self.markup = self.markup.strip()
+
+      if tag == 'table':
+        self.state = 'null'
+      elif self.state == 'td' and tag == 'tr':
+        self.markup += "\n"
+
+      elif tag == 'td':
+        if self.state == 'td':
+          self.markup += self.buffer
+          self.state == 'table'
+        self.buffer = ''
+
+      elif self.state == 'td':
+        self.buffer += '</' + tag + '>'
+
+
+    def handle_data(self, data):
+      if self.state == 'td':
+        self.buffer += data
+
+
+try:
+  opts, args = getopt.getopt(sys.argv[1:], '', [])
+except getopt.GetoptError:
+  sys.stderr.write(errs['usage'])
+  sys.exit(os.EX_USAGE)
+
+if len(args) == 0:
+  sys.stderr.write(errs['usage'])
+  sys.exit(os.EX_USAGE)
+
+for arg in args:
+
+  try:
+    content = urllib2.urlopen(arg).read()
+  except ValueError:
+    sys.stderr.write(errs['invalid'])
+    continue
+
+  if content:
+
+    parser = GitHubParser()
+    parser.feed(content)
+
+    markup = parser.markup
+    if markup == '':
+      sys.stderr.write("🚫  No gist found\n")
+    else:
+      print markup
+  else:
+    sys.stderr.write(errs['invalid'])
