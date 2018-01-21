@@ -5,7 +5,7 @@
 """
 lsemoji
 A human-friendly ls
-http://davidfmiller.github.io/lsemoji/
+https://davidfmiller.github.io/bin/lsemoji
 """
 
 # todo:
@@ -27,7 +27,7 @@ VERSION = "0.0.1"
 
 PACKAGES = [
   '.APP',                  # application
-  '.APPEX',                # ios app extension 
+  '.APPEX',                # ios app extension
   '.BBPROJECTD',           # bbedit project
   '.BZPKG',                # backblaze package
   '.CLR',                  # color list
@@ -43,10 +43,10 @@ PACKAGES = [
   '.PLAYGROUND',           # swift playground
   '.PREFPANE',             # system preference pane
   '.QLGENERATOR',          # quick look generator
-  '.RTFD',                 # rich text 
+  '.RTFD',                 # rich text
   '.SAVER',                # screen saver
   '.SKETCHPLUGIN',         # sketch plugin
-  '.SCPTD',                # applescript 
+  '.SCPTD',                # applescript
   '.TRACE',                # xcode/instruments trace
   '.XCODEPROJ',            # xcode project
   '.XCTEST',               # xcode test bundle
@@ -115,7 +115,7 @@ map = {
   # scripts
   '.CLJ'         : "📃", # clojure
   '.COFFEE'      : "📃", # coffeescript
-  '.CSON'        : "📃", # coffeescript object notation 
+  '.CSON'        : "📃", # coffeescript object notation
   '.DUST'        : "📃", # dust template
   '.ERL'         : "📃", # erlang
   '.GO'          : "📃", # go
@@ -201,7 +201,7 @@ map = {
   '.OOUTLINE' : "✅", # omnioutliner
   '.OTF'    : "🖋", # opentype font
   '.PEM'    : "🔑", # SSL cert
-  '.PKPASS' : '🎟', # apple wallet 
+  '.PKPASS' : '🎟', # apple wallet
   '.P12'    : "🔑", # cert
   '.RTF'   : "📝", # rich text documents
   '.RTFD'  : "📝", # rich text document package
@@ -216,7 +216,7 @@ map = {
   '.WOFF2' : "🖊", # ?? font
   '.XLS'   : "📊", # excel spreadsheet
   '.XLSX'  : "📊", # excel spreadsheet
-  '.XPS'   : "📝", # 
+  '.XPS'   : "📝", #
   '.ZWO'   : "🚴", #  zwift workout
 
   '.WAR'   : "☕", # java web archive
