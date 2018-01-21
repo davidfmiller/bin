@@ -10,6 +10,7 @@ guetzlify()
   $cmd "$1" "$2"
   out=$?
 
+  # echo file creation & compression info
   if [ $out -eq 0 ];
   then
     originalSize=`stat -f%z "$1"`
