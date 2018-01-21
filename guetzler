@@ -3,7 +3,21 @@
 # Export compressed copy of JPEG(s) using guetzli
 # https://github.com/google/guetzli
 
-cmd=`which guetzli`
+cmd=(`which guetzli`)
+
+guetzlify()
+{
+  $cmd "$1" "$2"
+  out=$?
+
+  if [ $out -eq 0 ];
+  then
+    originalSize=`stat -f%z "$1"`
+    compressedSize=`stat -f%z "$2"`
+    output=`php -r "echo('(' . (100 - round(100 * $compressedSize/$originalSize)) . '% compressed)');"`
+    echo "$1 → $2 $output"
+  fi
+}
 
 # ensure guetzli is installed
 if [[ $cmd == "" ]]
@@ -30,28 +44,24 @@ do
     f=`basename $arg`
     dir=`dirname $arg`
 
-    echo $arg → $dir/guetzli-$f
-    `$cmd $arg $dir/guetzli-$f`
+    guetzlify $arg $dir/guetzli-$f
 
   # if a directory, create sub-directory `guetzli` and export images there
   elif [ -d "$arg" ];
   then
-    dir=`basename $1`
-
     format=*.jpg
-    for i in $dir/$format;
+    for i in $arg/$format;
     do
+       outdir="$arg/guetzli"
 
-      outdir="`dirname $i`/guetzli"
+       if [ ! -d "$outdir" ];
+       then
+         mkdir $outdir
+       fi
 
-      if [ ! -d "$outdir" ];
-      then
-        mkdir $outdir
-      fi
+       f=`basename "$i"`;
+       guetzlify "$i" "$outdir/$f"
 
-      f=`basename $i`;
-      echo $i → $outdir/$f;
-      `$cmd $i $outdir/$f`
     done
   else
     >&2 echo "🚫  Invalid path \"$1\""
