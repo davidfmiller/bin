@@ -51,6 +51,13 @@ Open the remote host for a git repository in your web browser of choice. Current
 
     > git-repo [path]
 
+## guetzler
+
+Run one or more JPGs (or a directory of them) through [guetzli](https://github.com/google/guetzli)
+
+    > guetzler [jpg|directory]
+
+
 ## icon-reset
 
 Clear all macOS icon caches (requires restart)

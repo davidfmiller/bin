@@ -50,8 +50,8 @@ do
   # if a directory, create sub-directory `guetzli` and export images there
   elif [ -d "$arg" ];
   then
-    format=*.jpg
-    for i in $arg/$format;
+#    format=*.jpe?g
+    for i in $arg/*.jpg $arg/*.jpeg;
     do
        outdir="$arg/guetzli"
 
