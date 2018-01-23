@@ -1,0 +1,19 @@
+#!/bin/sh
+
+
+# if no arguments specified...
+if [[ $1 == "" ]]
+then
+   >&2 echo "🚫  Invalid port"
+   exit 1
+fi
+
+echo "🌏 http://0.0.0.0:$1/"
+
+err=$(python -m SimpleHTTPServer $1 2>&1)
+
+if [[ $err ]];
+then
+   >&2 echo "🚫  Unable to listen on port $1"
+   exit 1
+fi
