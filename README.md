@@ -57,6 +57,12 @@ Run one or more JPGs (or a directory of them) through [guetzli](https://github.c
 
     > guetzler [jpg|directory]
 
+## http
+
+Serve a directory via Python's [SimpleHTTPServer](https://docs.python.org/2/library/simplehttpserver.html) library:
+
+    > http [port]
+
 
 ## icon-reset
 
