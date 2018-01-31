@@ -44,7 +44,7 @@ do
     f=`basename $arg`
     dir=`dirname $arg`
 
-    guetzlify $arg $dir/guetzli-$f
+    guetzlify "$arg" "$dir/guetzli-$f"
 
   # if a directory, create sub-directory `guetzli` and export images there
   elif [ -d "$arg" ];

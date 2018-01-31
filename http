@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# Serve a folder via HTTP
 
 # if no arguments specified...
 if [[ $1 == "" ]]
