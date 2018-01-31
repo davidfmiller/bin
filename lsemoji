@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 
@@ -478,7 +478,7 @@ if __name__ == '__main__':
 
     if OPTS['glyph']:
       f = File(path)
-      print OPTS['prefix'] + f.emoji()
+      print(OPTS['prefix'] + f.emoji())
 
     else:
 
