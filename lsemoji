@@ -54,6 +54,7 @@ PACKAGES = [
   '.XCWORKSPACE',          # xcode workspace
   '.XCDATAMODELD',         # xcode core data model
   '.PHOTOSLIBRARY',        # iphotos
+  '.VPDOC',                # voodoopad document
   '.WORKFLOW',             # automator workflow
   '.SERVICE'               # os x system service
   ]
