@@ -2,16 +2,22 @@
 
 # Serve a folder via HTTP
 
+PORT=0
+
 # if no arguments specified...
 if [[ $1 == "" ]]
 then
-   >&2 echo "🚫  Invalid port"
-   exit 1
-fi
+  PORT=8081
+else
+  PORT="$1"
 
-echo "🌏 http://0.0.0.0:$1/"
+#    >&2 echo "🚫  Invalid port"
+#    exit 1
+ fi
 
-err=$(python -m SimpleHTTPServer $1 2>&1)
+echo "🌏 http://0.0.0.0:$PORT/"
+
+err=$(python -m SimpleHTTPServer $PORT 2>&1)
 
 if [[ $err ]];
 then
