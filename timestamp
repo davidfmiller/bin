@@ -1,0 +1,13 @@
+#!/bin/sh
+
+
+
+if [[ "$1" = "" ]]
+then
+  STAMP=$(date +%s)
+else
+  STAMP=$1
+fi
+
+
+date -j -f %s $STAMP
