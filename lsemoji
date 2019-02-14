@@ -188,6 +188,7 @@ map = {
   '.GPX'   : "📍", # map file
   '.GRAFFLE'    : "📝", # graffle
   '.HTTPCLIENT' : "🌏", # http client
+  '.IPA'   : "⚙", # ios app
   '.ICHAT' : "💬", # ichat archive
   '.JAR'   : "☕", # java archive
   '.KEY'   : "🔑", # SSL key
