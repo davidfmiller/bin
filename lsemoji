@@ -213,6 +213,7 @@ map = {
   '.TERMINAL' : "🎨", # terminal profile
   '.TSV'   : "📊", # tab-separated data
   '.TTF'   : "🖊", # truetype font
+  '.USDZ'  : "🕹", # usdz model
   '.EOT'   : "🖊", # ?? font
   '.WOFF'  : "🖊", # ?? font
   '.WOFF2' : "🖊", # ?? font
