@@ -162,6 +162,7 @@ map = {
   '.LESS'     : "🎨", # stylesheet
   '.MARKDOWN' : "📝", # markdown
   '.MD'       : "📝", # markdown
+  '.METAL'    : "📝", # metal
   '.RST'      : "📝", # restructured text
   '.RSS'      : "📰", # rss
   '.SCSS'     : "🎨", # stylesheet
