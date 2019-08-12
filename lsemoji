@@ -90,7 +90,7 @@ map = {
   '.EPUB' : "📕",
   '.MOBI' : "📕",
 
-  # images
+  # images / design
   '.AI'      : "🖼",
   '.BMP'     : "🖼",
   '.CR2'     : "🖼",
@@ -112,6 +112,7 @@ map = {
   '.SVG'     : "🖼",
   '.TIF'     : "🖼",
   '.TIFF'    : "🖼",
+  '.XD'      : "🖼",
 
   # scripts
   '.CLJ'         : "📃", # clojure
