@@ -23,8 +23,8 @@ try:
   from pygments.util import ClassNotFound
   import pygments_markdown_lexer
 
-except ImportError:
-  sys.stderr.write("🚫  A required dependency is not installed; see http://davidfmiller.github.io/bin for more information\n")
+except ImportError, e: 
+  sys.stderr.write("🚫  A required dependency is not installed;" + e + " see http://davidfmiller.github.io/bin for more information\n")
   plainText = True
 
 def _catf(content, lexer = None, debug = False):
