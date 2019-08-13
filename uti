@@ -2,6 +2,7 @@
 
 import Foundation
 import Cocoa
+import AppKit
 
 let arguments = Array(CommandLine.arguments[1 ..< CommandLine.arguments.count])
 
