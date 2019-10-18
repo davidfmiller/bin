@@ -138,6 +138,7 @@ map = {
   '.RS'          : "📃", # rust
   '.SH'          : "📃", # shell
   '.SQL'         : "📃", # sql
+  '.TS'         : "📃", # typescript
   '.SCPT'        : "🍎", # applescript
   '.SCPTD'       : "🍎", # applescript
   '.APPLESCRIPT' : "🍎", # applescript
