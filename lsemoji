@@ -35,6 +35,7 @@ PACKAGES = [
   '.DOWNLOAD',             # incomplete safari download
   '.FRAMEWORK',            # framework
   '.GSTENCIL',             # omnigraffle stencil
+  '.IATEMPLATE',           # ia writer template
   '.LBACTION',             # launchbar action
   '.LBTHEME',              # launchbar theme
   '.LRDATA',               # adobe photoshop lightroom library
