@@ -32,6 +32,7 @@ PACKAGES = [
   '.BZPKG',                # backblaze package
   '.CLR',                  # color list
   '.COLORPICKER',          # system color picker
+  '.DOCSET',               # documentation set
   '.DOWNLOAD',             # incomplete safari download
   '.FRAMEWORK',            # framework
   '.GSTENCIL',             # omnigraffle stencil
