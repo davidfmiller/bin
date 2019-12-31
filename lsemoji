@@ -216,6 +216,7 @@ map = {
   '.RTF'   : "📝", # rich text documents
   '.RTFD'  : "📝", # rich text document package
   '.SO'    : "📚", # library
+  '.SOULVER'     : "🧮", # soulver document
   '.STORYBOARD'  : "📓", # xcode storyboard interface file
   '.TCX'   : "📍", # map file
   '.TERMINAL' : "🎨", # terminal profile
