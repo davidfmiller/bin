@@ -182,10 +182,11 @@ map = {
 
   # misc
   '.ACO'   : "🎨", # adobe palette
-  '.AIR'   : "⚙", # adobe air app
+  '.AIR'   : "⚙️", # adobe air app
   '.ASE'   : "🎨", # adobe palette
-  '.APP'   : "⚙", # application
-  '.APPEX' : "⚙", # application extension
+  '.APK'   : "⚙️", # android applicaiton
+  '.APP'   : "⚙️", # application
+  '.APPEX' : "⚙️", # application extension
   '.CSV'   : "📊", # comma-separated data
   '.DMG'   : "💿", # disk image
   '.DOC'   : "📝", # word document
