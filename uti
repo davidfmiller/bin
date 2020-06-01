@@ -11,7 +11,7 @@ let stderr = FileHandle.standardError
 for arg in arguments
 {
   do {
-    let type = try NSWorkspace.shared().type(ofFile:arg)
+    let type = try NSWorkspace.shared.type(ofFile:arg)
     print((arguments.count > 1 ? arg + " : " : "") + type)
   }
   catch
