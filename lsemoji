@@ -192,6 +192,7 @@ map = {
   '.APP'   : "⚙️", # application
   '.APPEX' : "⚙️", # application extension
   '.CSV'   : "📊", # comma-separated data
+  '.DER'   : "🔑", # der key
   '.DMG'   : "💿", # disk image
   '.DOC'   : "📝", # word document
   '.DOCX'  : "📝", # "
