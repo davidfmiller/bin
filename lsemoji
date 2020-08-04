@@ -160,6 +160,7 @@ map = {
   '.CRASH'    : "💥", # crash log
   '.CS'       : "📄", # c#
   '.CSS'      : "🎨", # stylesheet
+  '.DIAG'     : "💥", # crash diagnosis
   '.TXT'      : "📄", # plain-text
   '.JAVA'     : "📄", # java
   '.M'        : "📄", # objective-c
