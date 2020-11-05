@@ -37,6 +37,7 @@ PACKAGES = [
   '.FRAMEWORK',            # framework
   '.GSTENCIL',             # omnigraffle stencil
   '.IATEMPLATE',           # ia writer template
+  '.KITE',                 # kite document
   '.LBACTION',             # launchbar action
   '.LBTHEME',              # launchbar theme
   '.LRDATA',               # adobe photoshop lightroom library
