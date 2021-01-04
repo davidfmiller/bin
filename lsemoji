@@ -59,6 +59,7 @@ PACKAGES = [
   '.PHOTOSLIBRARY',        # iphotos
   '.VPDOC',                # voodoopad document
   '.WORKFLOW',             # automator workflow
+  '.XCAPPDATA',            # xcode app data
   '.SERVICE'               # os x system service
   ]
 
