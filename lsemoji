@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 
@@ -64,6 +64,8 @@ PACKAGES = [
   ]
 
 map = {
+
+  ''      : "📄",
 
   # special
   'HOME'         : "🏡",
@@ -350,14 +352,14 @@ class File:
     return self.path
 
   def name(self):
-    return unicode(os.path.basename(self.path) + (os.path.islink(self.path) and ' → ' + os.readlink(self.path) or ''), 'utf_8')
+    return os.path.basename(self.path) + (os.path.islink(self.path) and ' → ' + os.readlink(self.path) or '')
 
   def __size(self):
     """
     Human friendly file size
     """
     num = self.length
-    unit_list = zip(['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'], [0, 0, 1, 2, 2, 2])
+    unit_list = list(zip(['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'], [0, 0, 1, 2, 2, 2]))
 
     if num == 1:
       return '1', 'byte'
@@ -402,7 +404,10 @@ class File:
     elif os.path.isdir(self.path):
       return len(self.contents) > 0 and map['FOLDER'] or map['FOLDER_EMPTY']
 
-    return map.has_key(extension) and map[extension] or map['DEFAULT']
+    if not extension not in map:
+      return map['DEFAULT']
+
+    return map[extension]
 
 def emoji(path):
   return File(path).emoji()
@@ -602,5 +607,6 @@ if __name__ == '__main__':
         prevMonth = month
         prevDay = day
 
-      sys.stdout.write(prefix + file.emoji() + '  ' + file.name().encode('utf_8') + '  ' + contents + "\n")
+      sys.stdout.write(prefix + file.emoji() + '  ' + file.name() + '  ' + contents + "\n")
+
       i += 1
