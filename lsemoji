@@ -404,7 +404,7 @@ class File:
     elif os.path.isdir(self.path):
       return len(self.contents) > 0 and map['FOLDER'] or map['FOLDER_EMPTY']
 
-    if not extension not in map:
+    if not extension in map:
       return map['DEFAULT']
 
     return map[extension]
