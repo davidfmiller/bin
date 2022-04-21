@@ -384,10 +384,11 @@ class File:
     extension = extension.upper()
 
     if extension in PACKAGES:
-      if map.has_key(extension):
-        return map[extension]
-      else:
+      if not extension in map:
         return map['.PACKAGE']
+
+
+      return map[extension]
 
     if os.path.islink(self.path):
       return map['LINK']
