@@ -54,7 +54,7 @@ for path in arguments
         continue;
     }
 
-    var mime = mimes[url.pathExtension!] != nil ? mimes[url.pathExtension!]! : mimes["txt"]!
+    let mime = mimes[url.pathExtension!] != nil ? mimes[url.pathExtension!]! : mimes["txt"]!
 
     let data = NSData(contentsOfFile: path)
 
