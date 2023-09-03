@@ -32,6 +32,7 @@ PACKAGES = [
   '.BZPKG',                # backblaze package
   '.CLR',                  # color list
   '.COLORPICKER',          # system color picker
+  '.DOCCARCHIVE',          # system color picker
   '.DOCSET',               # documentation set
   '.DOWNLOAD',             # incomplete safari download
   '.FRAMEWORK',            # framework
@@ -198,6 +199,7 @@ map = {
   '.APPEX' : "⚙️", # application extension
   '.CSV'   : "📊", # comma-separated data
   '.DER'   : "🔑", # der key
+  '.DOCCARCHIVE' : "📚", # documentation archive
   '.DMG'   : "💿", # disk image
   '.DOC'   : "📝", # word document
   '.DOCX'  : "📝", # "
