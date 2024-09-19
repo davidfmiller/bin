@@ -1,0 +1,4 @@
+#!/bin/sh
+
+
+convert favicon.ico\@128w.png favicon.ico\@64w.png favicon.ico\@32w.png favicon.ico.png favicon.ico
