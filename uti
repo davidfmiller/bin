@@ -1,21 +1,21 @@
-#!/usr/bin/swift
+#!/bin/sh
 
-import Foundation
-import Cocoa
-import AppKit
+if [ "$#" -eq 0 ]; then
+  >&2 echo "🚫 uti [filename] [...]"
+  exit 1
+fi
 
-let arguments = Array(CommandLine.arguments[1 ..< CommandLine.arguments.count])
 
-let stderr = FileHandle.standardError
+for var in "$@"
+do
+  STR=`mdls -name kMDItemContentType $var`
+  STR=`echo "$STR" | cut -d'"' -f 2`
+  NAME=`basename $var`
 
-for arg in arguments
-{
-  do {
-    let type = try NSWorkspace.shared.type(ofFile:arg)
-    print((arguments.count > 1 ? arg + " : " : "") + type)
-  }
-  catch
-  {
-    stderr.write("🚫  file `\(arg)` doesn't exist\n".data(using: String.Encoding.utf8)!)
-  }
-}
+  if [ "$#" -ne 1 ]; then
+    echo "$NAME : $STR"
+  else
+    echo $STR
+  fi
+
+done
