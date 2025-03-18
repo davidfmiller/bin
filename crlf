@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# find every file in the directory(s) passed as arguments that contains windows-line endings.
+
+find "$@" -not -type d -exec file "{}" ";" | grep CRLF

@@ -105,6 +105,7 @@ map = {
   '.AI'      : "🖼",
   '.BMP'     : "🖼",
   '.CR2'     : "🖼",
+  '.CR3'     : "🖼",
   '.DNG'     : "🖼",
   '.GIF'     : "🖼",
   '.HEIF'    : "🖼",
@@ -129,6 +130,7 @@ map = {
 
 
   # scripts
+  '.APPLESCRIPT' : "🍎", # applescript
   '.CLJ'         : "📃", # clojure
   '.COFFEE'      : "📃", # coffeescript
   '.CSON'        : "📃", # coffeescript object notation
@@ -138,22 +140,24 @@ map = {
   '.GROOVY'      : "📃", # groovy
   '.JS'          : "📃", # javascript
   '.JSON'        : "📃", # json
+  '.KT'          : "📃", # kotlin
+  '.KTS'         : "📃", # kotlin
   '.LIQUID'      : "📃", # liquid template
   '.ML'          : "📃", # ocaml
   '.HS'          : "📃", # haskell
-  '.PHAR'        : "⚙", # php archive
+  '.PHAR'        : "⚙",  # php archive
   '.PHP'         : "📃", # php
   '.PL'          : "📃", # perl
+  '.PROPERTIES'  : "📃", # properties
   '.PY'          : "📃", # python
   '.RB'          : "📃", # ruby
   '.RS'          : "📃", # rust
-  '.SH'          : "📃", # shell
-  '.SQL'         : "📃", # sql
-  '.TS'         : "📃", # typescript
   '.SCPT'        : "🍎", # applescript
   '.SCPTD'       : "🍎", # applescript
-  '.APPLESCRIPT' : "🍎", # applescript
-
+  '.SH'          : "📃", # shell
+  '.SQL'         : "📃", # sql
+  '.TS'          : "📃", # typescript
+  '.XMP'         : "📃", # xmp
 
   # text/source
   '.APPCACHE' : "🌏", # html 5 app cache
