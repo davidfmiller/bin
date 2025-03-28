@@ -198,7 +198,7 @@ map = {
   '.ACO'   : "🎨", # adobe palette
   '.AIR'   : "⚙️", # adobe air app
   '.ASE'   : "🎨", # adobe palette
-  '.APK'   : "⚙️", # android applicaiton
+  '.APK'   : "🤖️", # android application
   '.APP'   : "⚙️", # application
   '.APPEX' : "⚙️", # application extension
   '.CSV'   : "📊", # comma-separated data
