@@ -394,7 +394,6 @@ class File:
       if not extension in map:
         return map['.PACKAGE']
 
-
       return map[extension]
 
     if os.path.islink(self.path):
@@ -615,6 +614,6 @@ if __name__ == '__main__':
         prevMonth = month
         prevDay = day
 
-      sys.stdout.write(prefix + file.emoji() + '  ' + file.name() + '  ' + contents + "\n")
+      sys.stdout.write(prefix + file.emoji() + ' ' + file.name() + '  ' + contents + "\n")
 
       i += 1
