@@ -1,27 +1,24 @@
 #!/bin/sh
 
-# Get a list of all submodule paths
-submodules=$(git config --file=.gitmodules --get-regexp '^submodule\..*\.path$' | awk '{print $2}')
-
 branch=`git rev-parse --abbrev-ref HEAD`
 if [[ $branch ]];
 then
   echo "🌳 $branch"; git status -s --ignore-submodules=dirty
 fi
 
-# Check if there are any submodules
+# get a list of all submodules
+submodules=$(git config --file=.gitmodules --get-regexp '^submodule\..*\.path$' | awk '{print $2}')
 if [ -z "$submodules" ]; then
-#  echo "🚫 No submodules found"
   exit 1
 fi
 
 
-# Loop through each submodule and display its status
+# loop through each submodule and display its status
 for submodule_path in $submodules; do
   if [ -d "$submodule_path" ]; then
     echo "📂 $submodule_path"
     (cd "$submodule_path" && git status -s)
   else
-    echo "🚫 Submodule directory '$submodule_path' not found. Please ensure submodules are initialized and updated."
+    echo "🚫 '$submodule_path' not found: `git submodule sync --recursive && git submodule update --init --recursive`"
   fi
 done
