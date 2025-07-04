@@ -1,0 +1,37 @@
+#!/bin/sh
+
+#
+# if arguments have been passed to the script, pass them on to git and exit
+#
+
+if [ $# -gt 0 ]; then
+  git $@
+  exit 1
+fi
+
+#
+# if _no_ arguments passed, then do a fancy git status (including submodules)
+#
+
+branch=`git rev-parse --abbrev-ref HEAD`
+if [[ $branch ]];
+then
+  echo "🌳 $branch"; git status -s --ignore-submodules=dirty
+fi
+
+# get a list of all submodules
+submodules=$(git config --file=.gitmodules --get-regexp '^submodule\..*\.path$' | awk '{print $2}')
+if [ -z "$submodules" ]; then
+  exit 1
+fi
+
+
+# loop through each submodule and display its status
+for submodule_path in $submodules; do
+  if [ -d "$submodule_path" ]; then
+    echo "📂 $submodule_path"
+    (cd "$submodule_path" && git status -s)
+  else
+    echo "🚫 '$submodule_path' not found: `git submodule sync --recursive && git submodule update --init --recursive`"
+  fi
+done
