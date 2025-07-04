@@ -1,5 +1,18 @@
 #!/bin/sh
 
+#
+# if arguments have been passed to the script, pass them on to git and exit
+#
+
+if [ $# -gt 0 ]; then
+  git $@
+  exit 1
+fi
+
+#
+# if _no_ arguments passed, then do a fancy git status (including submodules)
+#
+
 branch=`git rev-parse --abbrev-ref HEAD`
 if [[ $branch ]];
 then
