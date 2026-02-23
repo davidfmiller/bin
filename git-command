@@ -29,7 +29,7 @@ fi
 # loop through each submodule and display its status
 for submodule_path in $submodules; do
   if [ -d "$submodule_path" ]; then
-    echo "📂 $submodule_path"
+    echo "🗂️  $submodule_path"
     (cd "$submodule_path" && git status -s)
   else
     echo "🚫 '$submodule_path' not found: `git submodule sync --recursive && git submodule update --init --recursive`"
