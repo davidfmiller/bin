@@ -1,139 +1,21 @@
-#!/usr/bin/env python
+#!/bin/sh
 # -*- coding: utf-8 -
 
-"""
-A simple hack to open a git repository's remote host in your default web browser
-
-https://github.com/davidfmiller/bin
-
-"""
-
-import sys
-import subprocess
-import re
-import getopt
-import os
-import urlparse
+# A simple script to open a git repository's remote host in your default web browser
 
 
-out,err = subprocess.Popen(["git", "remote", "show", "origin"], stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-lines = out.splitlines()
 
-# no git repo
-if len(lines) == 0:
-  sys.stderr.write("🚫  No git repo found\n")
-  sys.exit(2)
+if [ "$#" -ne 1 ]; then
+REMOTE='origin'
+#
+else
+  REMOTE="$1"
+fi
 
-try:
-  opts, args = getopt.getopt(sys.argv[1:], '')
-except getopt.GetoptError:
-  sys.stderr.write("🚫  Incorrect usage\n")
-  sys.exit(2)
+URL=`(git remote get-url $REMOTE)`
 
-# retrieve the line that has the fetch url, and strip all extraneous info
-fetchLine = lines[1].split(':', 1)[1].strip()
+if [ -z "$URL" ]; then
+  exit 1
+fi
 
-# base url for the repository
-url = ''
-
-# type of hosting service for this repo (one of: github, bitbucket,gitlab)
-host = None
-github, bitbucket,gitlab = range(0,3)
-
-branch = 'master'
-
-out,err = subprocess.Popen(["git", "branch"], stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-lines = out.splitlines()
-
-
-# if there's ≥ 1 line from branch command, find the current branch name
-if len(lines) != 1:
-  for line in lines:
-    line = line.strip()
-    # if this is the current branch
-    if line[0] == "*":
-      branch = line[1:].strip()
-
-# github https
-if re.search(r'^https://github.com', fetchLine):
-  url = fetchLine #[:-4]
-  host = github
-
-# github git
-elif re.search(r'^git@github.com', fetchLine):
-  url = 'https://github.com/' + fetchLine.split(':', 1)[1][:-4]
-  host = github
-
-# bitbucket git
-elif re.search(r'^git@bitbucket.org', fetchLine):
-  url = fetchLine[:-4].replace(':', '/').replace('git@', 'https://')
-  host = bitbucket
-
-# bitbucket https
-elif re.search(r'^https://bitbucket.org', fetchLine):
-  o = urlparse.urlparse(fetchLine)
-
-  url = 'https://bitbucket.org' + o.path.split(':')[-1][:-4]
-  host = bitbucket
-
-# gitlab git
-elif re.search(r'^[^@]*git@gitlab.com', fetchLine):
-  o = urlparse.urlparse(fetchLine)
-  url = fetchLine[:-4].replace(':', '/').replace('git@', 'https://')
-  host = gitlab
-
-# gitlab https
-elif re.search(r'^https://gitlab.com', fetchLine):
-  o = urlparse.urlparse(fetchLine)
-  url = 'https://gitlab.com' + o.path[:-4]
-  host = gitlab
-
-# unknown
-else:
-  sys.stderr.write("🚫  Unknown remote origin " + fetchLine + "\n")
-  sys.exit(2)
-
-# find the repository root, walking up the directory tree if necessary
-root = os.getcwd()
-while root != '/':
-  repo = os.path.join(root, '.git')
-  if os.path.exists(repo):
-    break
-  else:
-    root = os.path.abspath(os.path.join(root, os.pardir))
-
-# if no files have been specified as args, handle the repository root
-if len(args) == 0:
-  args = [root]
-
-# loop through all files passed to the script
-for file in args:
-
-  # determine the path of the current file, relative to the repository root
-  current = os.path.abspath(os.path.join(os.getcwd(), file))
-  path = current.replace(root, '')
-
-  # if we're not dealing with the repo root...
-  if file != root:
-
-    # figure out file's url based on host type
-    if host == github:
-      current = url + '/' + (os.path.isdir(file) and 'tree' or 'blob') + '/' + branch + path
-    elif host == bitbucket:
-      current = url + "/src/" + branch + path
-    elif host == gitlab:
-      current = url + '/' + (os.path.isdir(file) and 'tree' or 'blob') + '/' + branch + path
-    else:
-      sys.stderr.write("🚫  Unknown host\n")
-      sys.exit(2)
-
-  # display the repository home page
-  else:
-    current = url
-
-  # if we're on os x, open the url in the default web browser
-  try :
-    subprocess.Popen(["open", current])
-  # otherwise print the url to stdout
-  except:
-    sys.stdout.write("🌎  " + current + "\n")
+open $URL
